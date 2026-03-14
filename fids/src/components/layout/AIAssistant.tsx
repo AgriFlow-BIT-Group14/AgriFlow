@@ -185,7 +185,7 @@ export function AIAssistant() {
         if ((!text.trim() && attachments.length === 0) || isLoading) return;
 
         const attachmentInfo = attachments.length > 0 
-            ? `\n\n[Attachments: ${attachments.map(a => a.name).join(', ')}]` 
+            ? `\n\n[${lang === "en" ? "Attachments" : "Pièces jointes"}: ${attachments.map(a => a.name).join(', ')}]` 
             : "";
 
         const newUserMsg = {

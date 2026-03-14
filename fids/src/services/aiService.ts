@@ -36,10 +36,18 @@ export const getChatCompletion = async (messages: Message[], persona: AIPersona 
     const systemPrompt: Message = {
         role: 'system',
         content: `${basePrompt}
-        LANGUAGE INSTRUCTION: You must detect the language used by the user in their latest message and respond in that SAME language (English or French). 
-        If the user speaks French, your entire response MUST be in French. If English, entire response in English.
-        CURRENCY: Always use "FCFA".
-        CONTEXT: AgriFlow is a digital system for agricultural input distribution in West Africa.`
+        
+        ### STRICT LANGUAGE RULES:
+        1. DETECT the language of the user's latest message.
+        2. RESPOND EXCLUSIVELY in that same language (French or English).
+        3. NEVER mix languages in a single response.
+        4. If the user writes in French, every word you speak must be French.
+        5. If the user writes in English, every word you speak must be English.
+        
+        ### CONTEXT & RULES:
+        - CURRENCY: Always use "FCFA".
+        - PROJECT: AgriFlow is a digital system for agricultural input distribution in West Africa.
+        - TONE: Professional, efficient, and direct.`
     };
 
     try {

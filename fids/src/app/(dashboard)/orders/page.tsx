@@ -9,11 +9,13 @@ import { Badge } from "@/components/ui/Badge";
 import { Table } from "@/components/ui/Table";
 import { Modal } from "@/components/ui/Modal";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import { getOrders, updateOrderStatus, Order as APIOrder } from "@/services/orderService";
 import { getCurrentUser, AuthResponse } from "@/services/authService";
 
 export default function OrdersPage() {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = React.useState("pending");
     const [orders, setOrders] = React.useState<APIOrder[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -62,12 +64,12 @@ export default function OrdersPage() {
     };
 
     const tabs = [
-        { id: "all", label: "All" },
-        { id: "pending", label: "Pending", count: orders.filter(o => o.status === "pending").length },
-        { id: "approved", label: "Approved" },
-        { id: "delivery", label: "In Delivery" },
-        { id: "delivered", label: "Delivered" },
-        { id: "rejected", label: "Rejected" },
+        { id: "all", label: t('all') },
+        { id: "pending", label: t('pending'), count: orders.filter(o => o.status === "pending").length },
+        { id: "approved", label: t('approved') },
+        { id: "delivery", label: t('delivery') },
+        { id: "delivered", label: t('delivered') },
+        { id: "rejected", label: t('rejected') },
     ];
 
     const filteredOrders = orders.filter(order => {
@@ -89,8 +91,8 @@ export default function OrdersPage() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-text-primary">Orders Management</h1>
-                        <p className="text-text-secondary text-sm sm:text-base">Process and approve farm input requests from farmers.</p>
+                        <h1 className="text-2xl font-bold text-text-primary">{t('orders_management')}</h1>
+                        <p className="text-text-secondary text-sm sm:text-base">{t('orders_description')}</p>
                     </div>
                 </div>
 
@@ -125,7 +127,7 @@ export default function OrdersPage() {
                     <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5">
                         <div className="flex-1">
                             <Input
-                                placeholder="Search by order ID or farmer name..."
+                                placeholder={t('search_orders')}
                                 icon={<Search size={18} />}
                                 className="h-10 border-none bg-background-alt"
                                 value={searchQuery}
@@ -136,7 +138,7 @@ export default function OrdersPage() {
                             <div className="flex-1 sm:flex-none flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-text-secondary">
                                 <MapPin size={16} />
                                 <select className="bg-transparent text-sm font-medium outline-none h-10 w-full sm:w-32 cursor-pointer">
-                                    <option>All Countries</option>
+                                    <option>{t('all_countries')}</option>
                                     <option>Burkina Faso</option>
                                     <option>Sénégal</option>
                                     <option>Côte d'Ivoire</option>
@@ -145,7 +147,7 @@ export default function OrdersPage() {
                             </div>
                             <div className="flex-1 sm:flex-none flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 text-text-secondary whitespace-nowrap">
                                 <Calendar size={16} />
-                                <span className="text-sm font-medium">All Time</span>
+                                <span className="text-sm font-medium">{t('all_time')}</span>
                             </div>
                             <Button 
                                 variant="outline" 
@@ -155,7 +157,7 @@ export default function OrdersPage() {
                                 )}
                                 onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
                             >
-                                More
+                                {t('more_filters')}
                             </Button>
                         </div>
                     </div>
@@ -205,7 +207,7 @@ export default function OrdersPage() {
                         <Table
                             columns={[
                                 {
-                                    header: "Order ID",
+                                    header: t('order_id'),
                                     accessor: (item: APIOrder) => (
                                         <span className="font-mono font-medium text-xs text-primary">
                                             #{item._id.slice(-8).toUpperCase()}
@@ -213,7 +215,7 @@ export default function OrdersPage() {
                                     )
                                 },
                                 {
-                                    header: "Farmer",
+                                    header: t('farmer'),
                                     accessor: (item: APIOrder) => (
                                         <div className="flex items-center gap-3">
                                             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary font-bold border border-primary/20 shadow-sm">
@@ -227,29 +229,29 @@ export default function OrdersPage() {
                                     )
                                 },
                                 {
-                                    header: "Products",
+                                    header: t('products'),
                                     accessor: (item: APIOrder) => item.orderItems.map(i => i.name).join(", "),
                                     className: "max-w-[200px] truncate",
                                     hiddenOnMobile: true
                                 },
                                 {
-                                    header: "Qty",
+                                    header: t('quantity'),
                                     accessor: (item: APIOrder) => item.orderItems.reduce((acc, i) => acc + i.qty, 0).toString(),
                                     className: "text-text-secondary font-medium",
                                     hiddenOnMobile: true
                                 },
                                 {
-                                    header: "Date",
+                                    header: t('date'),
                                     accessor: (item: APIOrder) => new Date(item.createdAt).toLocaleDateString(),
                                     className: "text-text-secondary",
                                     hiddenOnMobile: true
                                 },
                                 {
-                                    header: "Status",
-                                    accessor: (item: APIOrder) => <Badge status={item.status}>{item.status}</Badge>
+                                    header: t('status'),
+                                    accessor: (item: APIOrder) => <Badge status={item.status}>{t(item.status)}</Badge>
                                 },
                                 {
-                                    header: "Actions",
+                                    header: t('actions'),
                                     accessor: (item: APIOrder) => (
                                         <div className="flex items-center gap-2">
                                             {item.status === "pending" && user?.role === 'admin' ? (
@@ -276,7 +278,7 @@ export default function OrdersPage() {
                                             ) : (
                                                 <Button variant="ghost" size="sm" className="h-8 gap-2 px-3" onClick={() => handleViewDetails(item)}>
                                                     <Eye size={16} />
-                                                    View
+                                                    {t('view')}
                                                 </Button>
                                             )}
                                         </div>
@@ -292,7 +294,7 @@ export default function OrdersPage() {
                 <Modal
                     isOpen={isDetailOpen}
                     onClose={() => setIsDetailOpen(false)}
-                    title={`Order #${selectedOrder?._id?.slice(-8).toUpperCase()}`}
+                    title={`${t('order_details')} #${selectedOrder?._id?.slice(-8).toUpperCase()}`}
                     className="max-w-2xl"
                 >
                     {selectedOrder && (
@@ -310,12 +312,12 @@ export default function OrdersPage() {
                                         </div>
                                     </div>
                                 </div>
-                                <Badge status={selectedOrder.status as "pending" | "approved" | "rejected" | "delivery" | "delivered"} className="text-xs px-3 py-1 shadow-sm uppercase tracking-wider">{selectedOrder.status}</Badge>
+                                <Badge status={selectedOrder.status as "pending" | "approved" | "rejected" | "delivery" | "delivered"} className="text-xs px-3 py-1 shadow-sm uppercase tracking-wider">{t(selectedOrder.status)}</Badge>
                             </div>
 
                             <div className="space-y-4">
                                 <h4 className="text-sm font-bold uppercase tracking-wider text-text-secondary flex items-center gap-2">
-                                    <span className="h-1 w-4 bg-primary rounded-full" /> Requested Items
+                                    <span className="h-1 w-4 bg-primary rounded-full" /> {t('requested_items')}
                                 </h4>
                                 <div className="space-y-3">
                                     {selectedOrder.orderItems.map((item, i: number) => (
@@ -324,7 +326,6 @@ export default function OrdersPage() {
                                             <div className="flex items-center gap-4">
                                                 <div className="text-right">
                                                     <p className="text-sm font-bold text-text-primary">{item.qty}</p>
-                                                    <p className="text-[10px] text-text-secondary font-bold uppercase tracking-tighter">Approved Qty</p>
                                                 </div>
                                                 <Input
                                                     defaultValue={item.qty.toString()}
@@ -337,23 +338,16 @@ export default function OrdersPage() {
                                 </div>
                             </div>
 
-                            <div className="rounded-lg bg-green-50/50 p-4 border border-green-100 text-green-800 text-sm flex items-center gap-3">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-green-100/50 shadow-sm">
-                                    <ArrowRight className="text-green-600" size={20} />
-                                </div>
-                                <p className="font-medium">Approving this order will automatically deduct quantities from the global inventory and notify the logistics team.</p>
-                            </div>
-
                             {user?.role === 'admin' && (
                                 <div className="flex gap-3 pt-6 border-t border-gray-100">
                                     <Button
                                         className="flex-1 py-6 text-lg font-bold gap-2 shadow-lg shadow-primary/20"
                                         onClick={() => handleStatusUpdate(selectedOrder._id, "approved")}
                                     >
-                                        <Check size={20} /> Approve Order
+                                        <Check size={20} /> {t('approve_order')}
                                     </Button>
                                     <Button variant="danger" className="flex-1 py-6 text-lg font-bold gap-2 shadow-lg shadow-status-rejected/20" onClick={() => setIsRejectModalOpen(true)}>
-                                        <X size={20} /> Reject Order
+                                        <X size={20} /> {t('reject_order')}
                                     </Button>
                                 </div>
                             )}
@@ -365,24 +359,24 @@ export default function OrdersPage() {
                 <Modal
                     isOpen={isRejectModalOpen}
                     onClose={() => setIsRejectModalOpen(false)}
-                    title="Reject Order"
+                    title={t('reject_order')}
                     className="max-w-md"
                 >
                     <div className="space-y-4 py-2">
                         <p className="text-sm text-text-secondary leading-relaxed">
-                            Please provide a reason for rejecting this order. The farmer will receive this message via push notification.
+                            {t('reject_reason_pill')}
                         </p>
                         <textarea
                             className="min-h-[120px] w-full rounded-xl border border-gray-200 bg-background-alt p-4 text-sm outline-none ring-primary focus:ring-1 focus:bg-white transition-all shadow-inner"
-                            placeholder="Reason for rejection (e.g. Incomplete profile, Requested region not covered...)"
+                            placeholder={t('reject_reason_placeholder')}
                             required
                         />
                         <div className="flex flex-col gap-2 pt-4">
                             <Button variant="danger" onClick={() => selectedOrder && handleStatusUpdate(selectedOrder._id, "rejected")}>
-                                Confirm Rejection
+                                {t('confirm_rejection')}
                             </Button>
                             <Button variant="ghost" onClick={() => setIsRejectModalOpen(false)}>
-                                Cancel
+                                {t('cancel')}
                             </Button>
                         </div>
                     </div>

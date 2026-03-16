@@ -9,8 +9,10 @@ import { cn } from "@/lib/utils";
 
 import { getDashboardStats, AnalyticsData, KPI, RegionalStat, exportAnalytics } from "@/services/analyticsService";
 import { Table } from "@/components/ui/Table";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function ReportsPage() {
+    const { t } = useTranslation();
     const [data, setData] = React.useState<AnalyticsData | null>(null);
     const [isLoading, setIsLoading] = React.useState(true);
 
@@ -58,7 +60,7 @@ export default function ReportsPage() {
         return (
             <DashboardLayout>
                 <div className="flex h-[80vh] items-center justify-center">
-                    <p className="text-text-secondary animate-pulse text-lg font-bold">Initializing Analytics Engine...</p>
+                    <p className="text-text-secondary animate-pulse text-lg font-bold">{t('initializing_analytics')}</p>
                 </div>
             </DashboardLayout>
         );
@@ -70,17 +72,17 @@ export default function ReportsPage() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-text-primary">Reports & Analytics</h1>
-                        <p className="text-text-secondary">Real-time auditing of agricultural distribution in Burkina Faso.</p>
+                        <h1 className="text-2xl font-bold text-text-primary">{t('reports_analytics')}</h1>
+                        <p className="text-text-secondary">{t('reports_description_analytics')}</p>
                     </div>
                     <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
                         <div className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 h-11 text-text-secondary shadow-sm">
                             <Calendar size={18} />
-                            <span className="text-sm font-semibold">Live System Audit</span>
+                            <span className="text-sm font-semibold">{t('live_system_audit')}</span>
                         </div>
                         <Button onClick={handleExport} className="h-11 shadow-lg shadow-primary/20 gap-2 font-bold">
                             <Download size={18} />
-                            Export CSV Report
+                            {t('export_csv_report')}
                         </Button>
                     </div>
                 </div>
@@ -104,14 +106,19 @@ export default function ReportsPage() {
                             <div className="mt-6">
                                 <p className="text-3xl font-extrabold text-text-primary tabular-nums tracking-tighter">{kpi.value}</p>
                                 <div className="mt-1 flex items-center justify-between">
-                                    <p className="text-sm font-bold text-text-primary">{kpi.label}</p>
+                                    <p className="text-sm font-bold text-text-primary">{
+                                        kpi.label === "Total Distributions" ? t('total_distributions') :
+                                        kpi.label === "Approval Rate" ? t('approval_rate') :
+                                        kpi.label === "Processing Time" ? t('processing_time') :
+                                        kpi.label === "Active Farmers" ? t('active_farmers') : kpi.label
+                                    }</p>
                                     <p className="text-[10px] font-bold uppercase tracking-widest text-text-secondary">{kpi.sub}</p>
                                 </div>
                                 <p className="mt-3 text-[10px] text-text-secondary leading-relaxed opacity-70">
-                                    {kpi.label === "Total Distributions" && "Sum of all confirmed seed and fertilizer quantities distributed across all regions."}
-                                    {kpi.label === "Approval Rate" && "Percentage of farmer requests that have been successfully verified and approved."}
-                                    {kpi.label === "Processing Time" && "Average time from request submission to final delivery assignment."}
-                                    {kpi.label === "Active Farmers" && "Number of farmers registered and active on the mobile platform."}
+                                    {kpi.label === "Total Distributions" && t('total_dist_desc')}
+                                    {kpi.label === "Approval Rate" && t('approval_rate_desc')}
+                                    {kpi.label === "Processing Time" && t('proc_time_desc')}
+                                    {kpi.label === "Active Farmers" && t('active_farmers_desc')}
                                 </p>
                             </div>
                         </div>
@@ -124,8 +131,8 @@ export default function ReportsPage() {
                     <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 flex flex-col h-full">
                         <div className="mb-8 flex items-center justify-between">
                             <div>
-                                <h3 className="text-lg font-bold text-text-primary">Monthly Distributions</h3>
-                                <p className="text-xs text-text-secondary">Aggregated volume history (kg)</p>
+                                <h3 className="text-lg font-bold text-text-primary">{t('monthly_distributions')}</h3>
+                                <p className="text-xs text-text-secondary">{t('aggregated_volume_history')}</p>
                             </div>
                         </div>
                         {/* Bar Chart */}
@@ -148,7 +155,7 @@ export default function ReportsPage() {
 
                     {/* Regional Breakdown */}
                     <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 h-full">
-                        <h3 className="mb-8 text-lg font-bold text-text-primary">Country Performance (International)</h3>
+                        <h3 className="mb-8 text-lg font-bold text-text-primary">{t('country_performance')}</h3>
                         <div className="space-y-6">
                             {data.regionalPerformance.map((reg, i) => (
                                 <div key={i} className="space-y-2">
@@ -170,10 +177,10 @@ export default function ReportsPage() {
                     <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4 bg-background-alt/30">
                         <div className="flex items-center gap-2">
                             <Leaf className="text-primary" size={20} />
-                            <h3 className="text-lg font-bold text-text-primary">Live Distribution Stream</h3>
+                            <h3 className="text-lg font-bold text-text-primary">{t('live_distribution_stream')}</h3>
                         </div>
                         <Button onClick={fetchStats} variant="ghost" size="sm" className="gap-2 h-9 text-primary font-bold hover:bg-primary/5">
-                            <TrendingUp size={14} /> Refresh Live Feed
+                            <TrendingUp size={14} /> {t('refresh_live_feed')}
                         </Button>
                     </div>
                     
@@ -181,12 +188,12 @@ export default function ReportsPage() {
                         <Table
                             columns={[
                                 { header: "ID", accessor: (tx: any) => <span className="font-mono text-xs text-primary font-bold">{tx.id.substring(0, 8)}</span>, hiddenOnMobile: true },
-                                { header: "Date", accessor: (tx: any) => new Date(tx.date).toLocaleDateString() + ' ' + new Date(tx.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), hiddenOnMobile: true },
-                                { header: "Farmer", accessor: (tx: any) => <span className="font-bold">{tx.farmer}</span> },
-                                { header: "Country", accessor: (tx: any) => tx.region, hiddenOnMobile: true },
-                                { header: "Amount", accessor: (tx: any) => <span className="font-bold text-primary">{tx.amount}</span> },
+                                { header: t('date'), accessor: (tx: any) => new Date(tx.date).toLocaleDateString() + ' ' + new Date(tx.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}), hiddenOnMobile: true },
+                                { header: t('farmer'), accessor: (tx: any) => <span className="font-bold">{tx.farmer}</span> },
+                                { header: t('all_countries').replace('All ', ''), accessor: (tx: any) => tx.region, hiddenOnMobile: true },
+                                { header: t('quantity'), accessor: (tx: any) => <span className="font-bold text-primary">{tx.amount}</span> },
                                 { 
-                                    header: "Status", 
+                                    header: t('status'), 
                                     accessor: (tx: any) => (
                                         <Badge status={tx.status as any} className="text-[10px] uppercase font-bold">
                                             {tx.status}
@@ -200,7 +207,7 @@ export default function ReportsPage() {
                         {data.recentTransactions.length === 0 && (
                             <div className="p-20 text-center flex flex-col items-center gap-4">
                                 <Package className="text-gray-300" size={48} />
-                                <p className="text-text-secondary font-medium tracking-tight">System ready. Awaiting next successful distribution event.</p>
+                                <p className="text-text-secondary font-medium tracking-tight">{t('system_ready_waiting')}</p>
                             </div>
                         )}
                     </div>

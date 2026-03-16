@@ -5,6 +5,8 @@ import { Bell, Search, User, LogOut, ChevronDown, Menu } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { logout } from "@/services/authService";
 import { cn } from "@/lib/utils";
+import { LanguageSelector } from "./LanguageSelector";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export interface HeaderProps {
     userName: string;
@@ -21,6 +23,7 @@ const Header: React.FC<HeaderProps> = ({
     notificationCount = 0,
     onMenuToggle,
 }) => {
+    const { t } = useTranslation();
     const [isProfileOpen, setIsProfileOpen] = React.useState(false);
     const [isSearchVisible, setIsSearchVisible] = React.useState(false);
 
@@ -61,7 +64,7 @@ const Header: React.FC<HeaderProps> = ({
                     />
                     <input
                         type="text"
-                        placeholder="Search dashboard..."
+                        placeholder={t('search_dashboard')}
                         autoFocus={isSearchVisible}
                         className="h-10 w-full rounded-full border border-gray-200 bg-background-alt pl-10 pr-4 text-sm transition-all focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
                     />
@@ -86,6 +89,10 @@ const Header: React.FC<HeaderProps> = ({
                         </span>
                     )}
                 </button>
+
+                <div className="h-8 w-px bg-gray-200" />
+
+                <LanguageSelector />
 
                 <div className="h-8 w-px bg-gray-200" />
 
@@ -134,14 +141,14 @@ const Header: React.FC<HeaderProps> = ({
                             <div className="absolute right-0 mt-2 w-48 overflow-hidden rounded-xl border border-gray-100 bg-white py-2 shadow-xl ring-1 ring-black/5 z-20">
                                 <button className="flex w-full items-center gap-2 px-4 py-2 text-sm text-text-primary hover:bg-background-alt transition-colors">
                                     <User size={16} />
-                                    My Profile
+                                    {t('my_profile')}
                                 </button>
                                 <button
                                     className="flex w-full items-center gap-2 px-4 py-2 text-sm text-status-rejected hover:bg-status-rejected/5 transition-colors"
                                     onClick={handleLogout}
                                 >
                                     <LogOut size={16} />
-                                    Logout
+                                    {t('logout')}
                                 </button>
                             </div>
                         </>

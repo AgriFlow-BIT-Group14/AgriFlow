@@ -7,8 +7,10 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Badge } from "@/components/ui/Badge";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function SettingsPage() {
+    const { t, language } = useTranslation();
     const [activeTab, setActiveTab] = React.useState("profile");
     const [user, setUser] = React.useState<any>(null);
     const [isSaving, setIsSaving] = React.useState(false);
@@ -94,18 +96,18 @@ export default function SettingsPage() {
     };
 
     const tabs = [
-        { id: "profile", label: "Account Profile", icon: User },
-        { id: "security", label: "Security & Password", icon: Lock },
-        { id: "notifications", label: "Notifications", icon: Bell },
-        { id: "regional", label: "Country Zones", icon: MapPin },
+        { id: "profile", label: t('account_profile'), icon: User },
+        { id: "security", label: t('security_password'), icon: Lock },
+        { id: "notifications", label: t('notifications_settings'), icon: Bell },
+        { id: "regional", label: t('country_zones'), icon: MapPin },
     ];
 
     return (
         <DashboardLayout>
             <div className="flex flex-col gap-6">
                 <div>
-                    <h1 className="text-2xl font-bold text-text-primary">System Settings</h1>
-                    <p className="text-text-secondary">Manage your account preferences and system configuration.</p>
+                    <h1 className="text-2xl font-bold text-text-primary">{t('system_settings')}</h1>
+                    <p className="text-text-secondary">{t('settings_description_all')}</p>
                 </div>
 
                 {saveMessage && (
@@ -165,8 +167,8 @@ export default function SettingsPage() {
                                         </button>
                                     </div>
                                     <div>
-                                        <h3 className="text-lg font-bold text-text-primary">Profile Picture</h3>
-                                        <p className="text-sm text-text-secondary">JPG, GIF or PNG. Max size of 5MB.</p>
+                                        <h3 className="text-lg font-bold text-text-primary">{t('profile_picture')}</h3>
+                                        <p className="text-sm text-text-secondary">{t('jpg_gif_png')}</p>
                                         <div className="mt-3 flex gap-2">
                                             <input
                                                 type="file"
@@ -206,22 +208,22 @@ export default function SettingsPage() {
                                                 className="h-9 px-4"
                                                 onClick={() => fileInputRef.current?.click()}
                                             >
-                                                Upload New
+                                                {t('upload_new')}
                                             </Button>
-                                            <Button type="button" variant="ghost" size="sm" className="h-9 px-4 text-status-rejected">Remove</Button>
+                                            <Button type="button" variant="ghost" size="sm" className="h-9 px-4 text-status-rejected">{t('remove')}</Button>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-                                    <Input label="Full Name" value={name} onChange={(e) => setName(e.target.value)} />
-                                    <Input label="Email Address" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                    <Input label="Phone Number" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                                    <Input label={t('full_name')} value={name} onChange={(e) => setName(e.target.value)} />
+                                    <Input label={t('email_address')} type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                    <Input label={t('phone_number')} value={phone} onChange={(e) => setPhone(e.target.value)} />
                                     <div className="space-y-1.5">
-                                        <label className="text-sm font-bold text-text-primary">System Language</label>
+                                        <label className="text-sm font-bold text-text-primary">{t('system_language')}</label>
                                         <select className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary">
-                                            <option>French (Français)</option>
-                                            <option>English</option>
+                                            <option>{language === 'fr' ? 'Français' : 'French (Français)'}</option>
+                                            <option>{language === 'en' ? 'English' : 'English'}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -229,7 +231,7 @@ export default function SettingsPage() {
                                 <div className="pt-6 border-t border-gray-100 flex justify-end">
                                     <Button type="submit" className="gap-2 px-8 shadow-lg shadow-primary/20" isLoading={isSaving}>
                                         <Save size={18} />
-                                        Save Profile
+                                        {t('save_profile')}
                                     </Button>
                                 </div>
                             </form>
@@ -239,27 +241,27 @@ export default function SettingsPage() {
                             <form className="max-w-md space-y-8 animate-in fade-in duration-500" onSubmit={handleUpdatePassword}>
                                 <div className="space-y-4">
                                     <h3 className="text-lg font-bold text-text-primary flex items-center gap-2">
-                                        <Lock size={20} className="text-primary" /> Update Password
+                                        <Lock size={20} className="text-primary" /> {t('update_password')}
                                     </h3>
-                                    <p className="text-sm text-text-secondary">Ensure your account is using a long, random password to stay secure.</p>
+                                    <p className="text-sm text-text-secondary">{t('password_desc')}</p>
                                 </div>
 
                                 <div className="space-y-4">
-                                    <Input label="Current Password" type="password" placeholder="••••••••" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
-                                    <Input label="New Password" type="password" placeholder="••••••••" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
-                                    <Input label="Confirm New Password" type="password" placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                                    <Input label={t('current_password')} type="password" placeholder="••••••••" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} />
+                                    <Input label={t('new_password')} type="password" placeholder="••••••••" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                                    <Input label={t('confirm_new_password')} type="password" placeholder="••••••••" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
                                 </div>
                                 <div className="rounded-xl bg-amber-50 p-4 border border-amber-100 flex gap-3 text-amber-800">
                                     <Shield size={20} className="shrink-0" />
                                     <div className="text-sm">
-                                        <p className="font-bold">Two-Factor Authentication (2FA)</p>
-                                        <p className="opacity-90">Add an extra layer of security to your account by enabling 2FA.</p>
-                                        <button type="button" className="mt-2 font-bold underline">Setup 2FA now</button>
+                                        <p className="font-bold">{t('two_factor_auth')}</p>
+                                        <p className="opacity-90">{t('two_factor_desc')}</p>
+                                        <button type="button" className="mt-2 font-bold underline">{t('setup_2fa_now')}</button>
                                     </div>
                                 </div>
 
                                 <div className="pt-6 border-t border-gray-100">
-                                    <Button type="submit" className="w-full" isLoading={isSaving}>Update Password</Button>
+                                    <Button type="submit" className="w-full" isLoading={isSaving}>{t('update_password')}</Button>
                                 </div>
                             </form>
                         )}
@@ -267,15 +269,15 @@ export default function SettingsPage() {
                         {activeTab === "notifications" && (
                             <div className="space-y-8 animate-in fade-in duration-500">
                                 <div className="space-y-1">
-                                    <h3 className="text-lg font-bold text-text-primary">Communication Preferences</h3>
-                                    <p className="text-sm text-text-secondary">Control which notifications you want to receive.</p>
+                                    <h3 className="text-lg font-bold text-text-primary">{t('communication_prefs')}</h3>
+                                    <p className="text-sm text-text-secondary">{t('comm_prefs_desc')}</p>
                                 </div>
 
                                 <div className="space-y-4">
                                     {[
-                                        { icon: Bell, label: "Order Status Updates", desc: "Receive alerts when an order is approved, rejected or delivered.", default: true },
-                                        { icon: MapPin, label: "Country Alerts", desc: "Notifications about stock movements and distributor activities in your country.", default: true },
-                                        { icon: Shield, label: "Security & Login", desc: "Notifications about new logins and security changes.", default: false },
+                                        { icon: Bell, label: t('order_status_updates'), desc: t('order_status_desc'), default: true },
+                                        { icon: MapPin, label: t('country_alerts'), desc: t('country_alerts_desc'), default: true },
+                                        { icon: Shield, label: t('security_login'), desc: t('security_login_desc'), default: false },
                                     ].map((item, i) => (
                                         <div key={i} className="flex items-start justify-between rounded-2xl border border-gray-100 p-6 transition-all hover:bg-background-alt">
                                             <div className="flex gap-4">
@@ -302,7 +304,7 @@ export default function SettingsPage() {
                                             setTimeout(() => setSaveMessage(null), 3000);
                                         }}
                                     >
-                                        Save Preferences
+                                        {t('save_preferences')}
                                     </Button>
                                 </div>
                             </div>
@@ -312,10 +314,10 @@ export default function SettingsPage() {
                             <div className="space-y-6 animate-in fade-in duration-500">
                                 <div className="flex items-center justify-between">
                                     <div>
-                                        <h3 className="text-lg font-bold text-text-primary">Country Assignment</h3>
-                                        <p className="text-sm text-text-secondary">Your assigned operational country for distribution.</p>
+                                        <h3 className="text-lg font-bold text-text-primary">{t('country_assignment')}</h3>
+                                        <p className="text-sm text-text-secondary">{t('country_assignment_desc')}</p>
                                     </div>
-                                    <Badge status="approved">Active Zone</Badge>
+                                    <Badge status="approved">{t('active_zone')}</Badge>
                                 </div>
 
                                 <div className="rounded-2xl border border-primary/20 bg-primary/5 p-8 flex flex-col items-center text-center gap-4">
@@ -327,15 +329,15 @@ export default function SettingsPage() {
                                         <p className="text-sm font-semibold text-primary">Assigned Country ID: BF-OUA-01</p>
                                     </div>
                                     <div className="flex gap-4 text-xs font-bold text-text-secondary uppercase tracking-widest mt-2">
-                                        <span>325 Farmers</span>
+                                        <span>325 {t('farmers')}</span>
                                         <span>•</span>
-                                        <span>12 Distribution Points</span>
+                                        <span>12 {t('distribution_points')}</span>
                                     </div>
                                 </div>
 
                                 <div className="rounded-xl border border-gray-100 p-6 flex items-center justify-between text-sm">
-                                    <p className="text-text-secondary">Need to change your assigned country?</p>
-                                    <Button variant="outline" size="sm">Request Transfer</Button>
+                                    <p className="text-text-secondary">{t('need_change_country')}</p>
+                                    <Button variant="outline" size="sm">{t('request_transfer')}</Button>
                                 </div>
                             </div>
                         )}

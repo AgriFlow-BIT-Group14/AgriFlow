@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { logout } from "@/services/authService";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export interface SidebarProps {
     role: "admin" | "distributor";
@@ -27,19 +28,20 @@ export interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ role, pendingOrdersCount = 0, isOpen = false, onClose }) => {
     const pathname = usePathname();
+    const { t } = useTranslation();
 
     const handleLogout = () => {
         logout();
     };
 
     const navItems = [
-        { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard, roles: ["admin", "distributor"] },
-        { name: "Inventory", href: "/inventory", icon: Box, roles: ["admin", "distributor"] },
-        { name: "Orders", href: "/orders", icon: ClipboardList, roles: ["admin", "distributor"], badge: pendingOrdersCount },
-        { name: "Deliveries", href: "/deliveries", icon: Truck, roles: ["admin", "distributor"] },
-        { name: "AgriFlow AI", href: "/ai", icon: Sparkles, roles: ["admin", "distributor"] },
-        { name: "Reports", href: "/reports", icon: BarChart3, roles: ["admin", "distributor"] },
-        { name: "Users", href: "/users", icon: Users, roles: ["admin", "distributor"] },
+        { name: t('dashboard'), href: "/dashboard", icon: LayoutDashboard, roles: ["admin", "distributor"] },
+        { name: t('inventory'), href: "/inventory", icon: Box, roles: ["admin", "distributor"] },
+        { name: t('orders'), href: "/orders", icon: ClipboardList, roles: ["admin", "distributor"], badge: pendingOrdersCount },
+        { name: t('deliveries'), href: "/deliveries", icon: Truck, roles: ["admin", "distributor"] },
+        { name: t('ai_assistant'), href: "/ai", icon: Sparkles, roles: ["admin", "distributor"] },
+        { name: t('reports'), href: "/reports", icon: BarChart3, roles: ["admin", "distributor"] },
+        { name: t('users'), href: "/users", icon: Users, roles: ["admin", "distributor"] },
     ];
 
     const normalizedRole = role.toLowerCase();
@@ -117,14 +119,14 @@ const Sidebar: React.FC<SidebarProps> = ({ role, pendingOrdersCount = 0, isOpen 
                     )}
                 >
                     <Settings size={20} className="text-gray-400 group-hover:text-secondary" />
-                    Settings
+                    {t('settings')}
                 </Link>
                 <button
                     className="flex w-full items-center gap-3 rounded-lg px-4 py-3 text-sm font-medium text-red-300 hover:bg-status-rejected/10 hover:text-status-rejected transition-all"
                     onClick={handleLogout}
                 >
                     <LogOut size={20} />
-                    Logout
+                    {t('logout')}
                 </button>
             </div>
         </aside>

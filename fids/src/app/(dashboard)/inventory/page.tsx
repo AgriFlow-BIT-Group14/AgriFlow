@@ -9,11 +9,13 @@ import { Badge } from "@/components/ui/Badge";
 import { Table } from "@/components/ui/Table";
 import { Modal } from "@/components/ui/Modal";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import { getProducts, createProduct, updateProduct, deleteProduct, Product as APIProduct } from "@/services/productService";
 import { getCurrentUser, AuthResponse } from "@/services/authService";
 
 export default function InventoryPage() {
+    const { t } = useTranslation();
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [products, setProducts] = React.useState<APIProduct[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -146,13 +148,13 @@ export default function InventoryPage() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-text-primary">Inventory Management</h1>
-                        <p className="text-text-secondary text-sm sm:text-base">Track stock levels and manage farm input catalogs.</p>
+                        <h1 className="text-2xl font-bold text-text-primary">{t('inventory_management')}</h1>
+                        <p className="text-text-secondary text-sm sm:text-base">{t('inventory_description')}</p>
                     </div>
                     {user?.role === 'admin' && (
                         <Button onClick={() => setIsModalOpen(true)} className="gap-2 w-full sm:w-auto">
                             <Plus size={18} />
-                            Add New Item
+                            {t('add_new_item')}
                         </Button>
                     )}
                 </div>
@@ -164,10 +166,10 @@ export default function InventoryPage() {
                             <AlertCircle size={24} className="text-amber-600" />
                         </div>
                         <div className="flex-1">
-                            <p className="font-bold">{lowStockItems.length} items are below minimum threshold</p>
-                            <p className="text-sm opacity-90">Attention needed to avoid stockouts in your catalog.</p>
+                            <p className="font-bold">{lowStockItems.length} {t('items_below_threshold')}</p>
+                            <p className="text-sm opacity-90">{t('attention_needed_stock')}</p>
                         </div>
-                        <Button variant="ghost" className="text-amber-700 hover:bg-amber-100 font-bold text-sm">View Items</Button>
+                        <Button variant="ghost" className="text-amber-700 hover:bg-amber-100 font-bold text-sm">{t('view_items')}</Button>
                     </div>
                 )}
 
@@ -175,7 +177,7 @@ export default function InventoryPage() {
                 <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-4 rounded-2xl bg-white p-4 shadow-sm ring-1 ring-black/5">
                     <div className="flex-1">
                         <Input
-                            placeholder="Search by name..."
+                            placeholder={t('search_by_name')}
                             icon={<Search size={18} />}
                             className="h-10 bg-background-alt border-none"
                             value={searchQuery}
@@ -188,20 +190,20 @@ export default function InventoryPage() {
                             onChange={(e) => setSelectedCategory(e.target.value)}
                             className="flex-1 sm:flex-none h-10 rounded-lg border border-gray-200 bg-white px-4 text-sm font-medium text-text-secondary outline-none focus:ring-1 focus:ring-primary transition-all"
                         >
-                            <option>All Categories</option>
-                            <option>Fertilizer</option>
-                            <option>Seeds</option>
-                            <option>Pesticide</option>
+                            <option value="All Categories">{t('all_categories')}</option>
+                            <option value="Fertilizer">{t('fertilizer')}</option>
+                            <option value="Seeds">{t('seeds')}</option>
+                            <option value="Pesticide">{t('pesticide')}</option>
                         </select>
                         <select 
                             value={selectedStatus}
                             onChange={(e) => setSelectedStatus(e.target.value)}
                             className="flex-1 sm:flex-none h-10 rounded-lg border border-gray-200 bg-white px-4 text-sm font-medium text-text-secondary outline-none focus:ring-1 focus:ring-primary transition-all"
                         >
-                            <option>All Status</option>
-                            <option>In Stock</option>
-                            <option>Low Stock</option>
-                            <option>Out of Stock</option>
+                            <option value="All Status">{t('all_status')}</option>
+                            <option value="In Stock">{t('in_stock')}</option>
+                            <option value="Low Stock">{t('low_stock')}</option>
+                            <option value="Out of Stock">{t('out_of_stock')}</option>
                         </select>
                         <Button 
                             variant="outline" 
@@ -212,7 +214,7 @@ export default function InventoryPage() {
                             onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
                         >
                             <Filter size={16} />
-                            More
+                            {t('more_filters')}
                         </Button>
                     </div>
                 </div>
@@ -264,7 +266,7 @@ export default function InventoryPage() {
                         <Table
                             columns={[
                                 {
-                                    header: "Product Name",
+                                    header: t('product_name'),
                                     accessor: (item: APIProduct) => (
                                         <div className="flex items-center gap-3">
                                             <div className={cn(
@@ -278,14 +280,14 @@ export default function InventoryPage() {
                                             </div>
                                             <div>
                                                 <p className="font-semibold text-text-primary">{item.name}</p>
-                                                <p className="text-[10px] uppercase font-bold text-text-secondary tracking-wider">{item.category}</p>
+                                                <p className="text-[10px] uppercase font-bold text-text-secondary tracking-wider">{t(item.category.toLowerCase())}</p>
                                             </div>
                                         </div>
                                     )
                                 },
-                                { header: "Unit", accessor: "unit", className: "text-text-secondary", hiddenOnMobile: true },
+                                { header: t('unit'), accessor: "unit", className: "text-text-secondary", hiddenOnMobile: true },
                                 {
-                                    header: "Current Stock",
+                                    header: t('current_stock'),
                                     accessor: (item: APIProduct) => (
                                         <span className={cn(
                                             "font-bold",
@@ -295,9 +297,9 @@ export default function InventoryPage() {
                                         </span>
                                     )
                                 },
-                                { header: "Min Threshold", accessor: "minThreshold", className: "text-text-secondary font-medium", hiddenOnMobile: true },
+                                { header: t('min_threshold'), accessor: "minThreshold", className: "text-text-secondary font-medium", hiddenOnMobile: true },
                                 {
-                                    header: "Price/Unit",
+                                    header: t('price_unit'),
                                     accessor: (item: APIProduct) => (
                                         <span className="font-semibold text-primary">
                                             {item.price.toLocaleString()} FCFA
@@ -305,22 +307,22 @@ export default function InventoryPage() {
                                     )
                                 },
                                 {
-                                    header: "Status",
+                                    header: t('status'),
                                     accessor: (item: APIProduct) => {
-                                        const status = item.stockQuantity === 0 ? "out-of-stock" :
-                                            item.stockQuantity < item.minThreshold ? "low-stock" : "in-stock";
+                                        const statusKey = item.stockQuantity === 0 ? "out_of_stock" :
+                                            item.stockQuantity < item.minThreshold ? "low_stock" : "in_stock";
                                         return (
                                             <Badge status={
-                                                status === "in-stock" ? "delivered" :
-                                                    status === "low-stock" ? "pending" : "rejected"
+                                                statusKey === "in_stock" ? "delivered" :
+                                                    statusKey === "low_stock" ? "pending" : "rejected"
                                             }>
-                                                {status.replace("-", " ")}
+                                                {t(statusKey)}
                                             </Badge>
                                         );
                                     }
                                 },
                                 ...(user?.role === 'admin' ? [{
-                                    header: "Actions",
+                                    header: t('actions'),
                                     accessor: (item: APIProduct) => (
                                         <div className="flex items-center gap-1">
                                             <button 
@@ -353,11 +355,11 @@ export default function InventoryPage() {
                         setEditingProduct(null);
                         resetForm();
                     }}
-                    title={editingProduct ? "Edit Farm Input" : "Add New Farm Input"}
+                    title={editingProduct ? t('edit_farm_input') : t('add_farm_input')}
                 >
                     <form className="space-y-4 py-2" onSubmit={handleCreateItem}>
                         <Input
-                            label="Name*"
+                            label={t('name_star')}
                             placeholder="e.g. Fertilizer NPK 15-15-15"
                             required
                             value={newItemName}
@@ -365,19 +367,19 @@ export default function InventoryPage() {
                         />
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-1.5">
-                                <label className="text-sm font-medium text-text-primary">Category*</label>
+                                <label className="text-sm font-medium text-text-primary">{t('category_star')}</label>
                                 <select
                                     className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary"
                                     value={newItemCategory}
                                     onChange={(e) => setNewItemCategory(e.target.value)}
                                 >
-                                    <option value="Fertilizer">Fertilizer</option>
-                                    <option value="Seed">Seeds</option>
-                                    <option value="Pesticide">Pesticide</option>
+                                    <option value="Fertilizer">{t('fertilizer')}</option>
+                                    <option value="Seed">{t('seeds')}</option>
+                                    <option value="Pesticide">{t('pesticide')}</option>
                                 </select>
                             </div>
                             <Input
-                                label="Unit*"
+                                label={t('unit_star')}
                                 placeholder="kg, bag, litre..."
                                 required
                                 value={newItemUnit}
@@ -386,7 +388,7 @@ export default function InventoryPage() {
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <Input
-                                label="Initial Quantity*"
+                                label={t('initial_quantity_star')}
                                 type="number"
                                 placeholder="1000"
                                 required
@@ -394,7 +396,7 @@ export default function InventoryPage() {
                                 onChange={(e) => setNewItemInitialQuantity(e.target.value)}
                             />
                             <Input
-                                label="Min threshold*"
+                                label={t('min_threshold_star')}
                                 type="number"
                                 placeholder="200"
                                 required
@@ -403,7 +405,7 @@ export default function InventoryPage() {
                             />
                         </div>
                         <Input
-                            label="Price per unit (optional)"
+                            label={t('price_optional')}
                             type="number"
                             step="1"
                             placeholder="0 FCFA"
@@ -419,7 +421,7 @@ export default function InventoryPage() {
 
                         <div className="flex flex-col gap-2 pt-4">
                             <Button type="submit" isLoading={isCreating}>
-                                {editingProduct ? "Update Product" : "Save Product"}
+                                {editingProduct ? t('update_product') : t('save_product')}
                             </Button>
                             <Button 
                                 type="button" 
@@ -430,7 +432,7 @@ export default function InventoryPage() {
                                     resetForm();
                                 }}
                             >
-                                Cancel
+                                {t('cancel')}
                             </Button>
                         </div>
                     </form>

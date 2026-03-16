@@ -17,12 +17,14 @@ import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Table } from "@/components/ui/Table";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "@/hooks/useTranslation";
 
 import { getOrders, Order as APIOrder } from "@/services/orderService";
 import { getProducts, Product as APIProduct } from "@/services/productService";
 import { getUsers, User as APIUser } from "@/services/userService";
 
 export default function AdminDashboardPage() {
+    const { t } = useTranslation();
     const [orders, setOrders] = React.useState<APIOrder[]>([]);
     const [products, setProducts] = React.useState<APIProduct[]>([]);
     const [users, setUsers] = React.useState<APIUser[]>([]);
@@ -72,10 +74,10 @@ export default function AdminDashboardPage() {
     const activeUsersCount = users.filter(u => u.lastSeen && new Date(u.lastSeen) >= activeThreshold).length;
 
     const stats = [
-        { label: "Today's Orders", value: todayOrdersCount.toString(), trend: "+12%", icon: TrendingUp, color: "bg-blue-600", href: "/orders" },
-        { label: "Active Farmers", value: activeUsersCount.toString().padStart(2, "0"), trend: "Now Online", icon: Users, color: "bg-indigo-600", href: "/users" },
-        { label: "Pending Approvals", value: pendingOrdersCount.toString().padStart(2, "0"), trend: "Action required", icon: Clock, color: "bg-orange-500", href: "/orders?status=pending" },
-        { label: "Low Stock Alerts", value: lowStockCount.toString().padStart(2, "0"), trend: "Check Inventory", icon: AlertTriangle, color: "bg-amber-600", href: "/inventory?status=Low Stock" },
+        { label: t('todays_orders'), value: todayOrdersCount.toString(), trend: "+12%", icon: TrendingUp, color: "bg-blue-600", href: "/orders" },
+        { label: t('active_farmers'), value: activeUsersCount.toString().padStart(2, "0"), trend: t('now_online'), icon: Users, color: "bg-indigo-600", href: "/users" },
+        { label: t('pending_approvals'), value: pendingOrdersCount.toString().padStart(2, "0"), trend: t('action_required'), icon: Clock, color: "bg-orange-500", href: "/orders?status=pending" },
+        { label: t('low_stock_alerts'), value: lowStockCount.toString().padStart(2, "0"), trend: t('check_inventory'), icon: AlertTriangle, color: "bg-amber-600", href: "/inventory?status=Low Stock" },
     ];
 
     const recentOrders = orders
@@ -100,13 +102,13 @@ export default function AdminDashboardPage() {
                 {/* Page Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-text-primary">Dashboard Overview</h1>
-                        <p className="text-text-secondary text-sm sm:text-base">Welcome back, here is what is happening today.</p>
+                        <h1 className="text-2xl font-bold text-text-primary">{t('dashboard_overview')}</h1>
+                        <p className="text-text-secondary text-sm sm:text-base">{t('welcome_back')}, {t('happening_today')}</p>
                     </div>
                     <Link href="/reports" className="w-full sm:w-auto">
                         <Button variant="outline" className="w-full gap-2">
                             <ArrowUpRight size={18} />
-                            Export Data
+                            {t('export_data')}
                         </Button>
                     </Link>
                 </div>
@@ -128,7 +130,7 @@ export default function AdminDashboardPage() {
                                 <div className="mt-4 flex items-center gap-1 text-xs font-semibold text-green-600">
                                     <ArrowUpRight size={14} />
                                     <span>{stat.trend}</span>
-                                    <span className="ml-1 font-normal text-text-secondary">vs yesterday</span>
+                                    <span className="ml-1 font-normal text-text-secondary">{t('vs_yesterday')}</span>
                                 </div>
                             </div>
                         </Link>
@@ -145,9 +147,9 @@ export default function AdminDashboardPage() {
                                     <div className="p-2 bg-white/20 rounded-lg">
                                         {weather.condition === "Rainy" ? <Truck size={20} /> : <TrendingUp size={20} />}
                                     </div>
-                                    <span className="font-bold uppercase tracking-wider text-xs opacity-90">Agri Insights • Live</span>
+                                    <span className="font-bold uppercase tracking-wider text-xs opacity-90">{t('agri_insights')}</span>
                                 </div>
-                                <h3 className="text-xl font-bold mb-2">Conseil du jour : {weather.advice}</h3>
+                                <h3 className="text-xl font-bold mb-2">{t('weather_advice_title')} : {weather.advice}</h3>
                                 <p className="text-white/80 text-sm max-w-xl">Basé sur les prévisions météorologiques actuelles ({weather.temp}°C, {weather.condition}) pour votre région.</p>
                             </div>
                             {/* Abstract background element */}
@@ -155,17 +157,17 @@ export default function AdminDashboardPage() {
                         </div>
 
                         <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5 border-l-4 border-orange-500">
-                            <h4 className="text-sm font-bold text-text-secondary uppercase tracking-tight mb-2">Recommandation</h4>
+                            <h4 className="text-sm font-bold text-text-secondary uppercase tracking-tight mb-2">{t('recommendation')}</h4>
                             <p className="text-text-primary font-medium">Augmentez le stock de **NPK 15-15-15**. La demande projetée est en hausse de 15% pour la semaine prochaine.</p>
                         </div>
                     </div>
                     {/* Order Activity Chart */}
                     <div className="lg:col-span-2 rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
                         <div className="mb-6 flex items-center justify-between">
-                            <h3 className="text-lg font-bold text-text-primary">Orders Activity</h3>
+                            <h3 className="text-lg font-bold text-text-primary">{t('orders_activity')}</h3>
                             <select className="rounded-md border border-gray-200 bg-background-alt px-3 py-1 text-sm font-medium text-text-secondary outline-none ring-primary focus:ring-1">
-                                <option>Last 30 days</option>
-                                <option>Last 7 days</option>
+                                <option>{t('last_30_days')}</option>
+                                <option>{t('last_7_days')}</option>
                             </select>
                         </div>
                         {/* Chart Simulation */}
@@ -188,14 +190,14 @@ export default function AdminDashboardPage() {
 
                     {/* Stock Distribution */}
                     <div className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-black/5">
-                        <h3 className="mb-6 text-lg font-bold text-text-primary">Stock by Category</h3>
+                        <h3 className="mb-6 text-lg font-bold text-text-primary">{t('stock_by_category')}</h3>
                         <div className="flex flex-col items-center justify-center py-4">
                             {/* Circular Chart Placeholder */}
                             <div className="relative flex h-40 w-40 items-center justify-center rounded-full border-[16px] border-primary/10">
                                 <div className="absolute top-[-16px] left-[-16px] h-40 w-40 rounded-full border-[16px] border-primary border-r-transparent border-b-transparent" />
                                 <div className="text-center">
                                     <p className="text-2xl font-bold text-text-primary">84%</p>
-                                    <p className="text-[10px] uppercase font-bold text-text-secondary tracking-widest leading-none">Healthy</p>
+                                    <p className="text-[10px] uppercase font-bold text-text-secondary tracking-widest leading-none">{t('healthy')}</p>
                                 </div>
                             </div>
 
@@ -209,7 +211,7 @@ export default function AdminDashboardPage() {
                                         <span className="text-sm font-bold text-text-primary">{cat.value}</span>
                                     </div>
                                 )) : (
-                                    <p className="text-center text-sm text-text-secondary">No products data</p>
+                                    <p className="text-center text-sm text-text-secondary">{t('no_products')}</p>
                                 )}
                             </div>
                         </div>
@@ -219,42 +221,42 @@ export default function AdminDashboardPage() {
                 {/* Bottom Section: Recent Orders */}
                 <div className="rounded-2xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
                     <div className="flex items-center justify-between border-b border-gray-100 px-6 py-4">
-                        <h3 className="text-lg font-bold text-text-primary">Recent Orders</h3>
+                        <h3 className="text-lg font-bold text-text-primary">{t('recent_orders')}</h3>
                         <Link href="/orders">
-                            <Button variant="ghost" className="text-sm">View All <ChevronRight size={16} className="ml-1" /></Button>
+                            <Button variant="ghost" className="text-sm">{t('view_all')} <ChevronRight size={16} className="ml-1" /></Button>
                         </Link>
                     </div>
                     {isLoading ? (
                         <div className="flex h-48 items-center justify-center">
-                            <p className="animate-pulse text-text-secondary">Updating activity feed...</p>
+                            <p className="animate-pulse text-text-secondary">{t('updating_activity')}</p>
                         </div>
                     ) : (
                         <Table
                             columns={[
                                 {
-                                    header: "Order ID",
+                                    header: t('order_id'),
                                     accessor: (item: APIOrder) => (
                                         <span className="font-mono font-medium text-xs text-primary">
                                             #{item._id.slice(-8).toUpperCase()}
                                         </span>
                                     )
                                 },
-                                { header: "Farmer Name", accessor: (item: APIOrder) => item.user.name },
+                                { header: t('farmer_name'), accessor: (item: APIOrder) => item.user.name },
                                 {
-                                    header: "Products",
+                                    header: t('products'),
                                     accessor: (item: APIOrder) => item.orderItems.map(i => i.name).join(", "),
                                     className: "max-w-[150px] truncate"
                                 },
                                 {
-                                    header: "Quantity",
+                                    header: t('quantity'),
                                     accessor: (item: APIOrder) => item.orderItems.reduce((acc, i) => acc + i.qty, 0).toString()
                                 },
                                 {
-                                    header: "Status",
+                                    header: t('status'),
                                     accessor: (item: APIOrder) => <Badge status={item.status}>{item.status}</Badge>
                                 },
                                 {
-                                    header: "Date",
+                                    header: t('date'),
                                     accessor: (item: APIOrder) => new Date(item.createdAt).toLocaleDateString(),
                                     className: "text-text-secondary"
                                 },

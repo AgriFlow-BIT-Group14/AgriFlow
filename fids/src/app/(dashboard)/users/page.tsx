@@ -12,8 +12,10 @@ import { cn } from "@/lib/utils";
 
 import { getUsers, updateUserStatus, deleteUser, createUser, updateUser, User as APIUser } from "@/services/userService";
 import { getCurrentUser, AuthResponse } from "@/services/authService";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export default function UserManagementPage() {
+    const { t } = useTranslation();
     const [activeTab, setActiveTab] = React.useState("all");
     const [users, setUsers] = React.useState<APIUser[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -65,7 +67,7 @@ export default function UserManagementPage() {
         } catch (err: unknown) {
             console.error(err);
             const error = err as { response?: { data?: { message?: string } } };
-            setCreateError(error.response?.data?.message || `Failed to ${editingUser ? 'update' : 'create'} user. Please try again.`);
+            setCreateError(error.response?.data?.message || t(`Failed to ${editingUser ? 'update' : 'create'} user. Please try again.`));
         } finally {
             setIsCreating(false);
         }
@@ -129,10 +131,10 @@ export default function UserManagementPage() {
     };
 
     const tabs = [
-        { id: "all", label: "All Users" },
-        { id: "admin", label: "Admins" },
-        { id: "distributor", label: "Distributors" },
-        { id: "farmer", label: "Farmers" },
+        { id: "all", label: t('all_users') },
+        { id: "admin", label: t('admins') },
+        { id: "distributor", label: t('distributors') },
+        { id: "farmer", label: t('farmers') },
     ];
 
     const filteredUsers = users.filter(user => {
@@ -156,13 +158,13 @@ export default function UserManagementPage() {
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-text-primary">User Management</h1>
-                        <p className="text-text-secondary text-sm sm:text-base">Control system access and manage country zone assignments.</p>
+                        <h1 className="text-2xl font-bold text-text-primary">{t('user_management_title')}</h1>
+                        <p className="text-text-secondary text-sm sm:text-base">{t('user_management_desc')}</p>
                     </div>
                     {user?.role === 'admin' && (
                         <Button onClick={() => setIsModalOpen(true)} className="gap-2 w-full sm:w-auto shadow-lg shadow-primary/20">
                             <UserPlus size={18} />
-                            Add New User
+                            {t('add_new_user')}
                         </Button>
                     )}
                 </div>
@@ -189,7 +191,7 @@ export default function UserManagementPage() {
                     <div className="flex flex-wrap items-center gap-4">
                         <div className="flex-1 min-w-[300px]">
                             <Input
-                                placeholder="Search by name, email or phone..."
+                                placeholder={t('search_users_placeholder')}
                                 icon={<Search size={18} />}
                                 className="h-10 border-none bg-background-alt"
                                 value={searchQuery}
@@ -202,7 +204,7 @@ export default function UserManagementPage() {
                                 onChange={(e) => setSelectedCountry(e.target.value)}
                                 className="h-10 rounded-lg border border-gray-200 bg-white px-4 text-sm font-bold text-text-secondary outline-none focus:ring-1 focus:ring-primary"
                             >
-                                <option>All Countries</option>
+                                <option>{t('all_countries')}</option>
                                 <option>Burkina Faso</option>
                                 <option>Sénégal</option>
                                 <option>Côte d'Ivoire</option>
@@ -217,9 +219,9 @@ export default function UserManagementPage() {
                                 onChange={(e) => setSelectedStatus(e.target.value)}
                                 className="h-10 rounded-lg border border-gray-200 bg-white px-4 text-sm font-bold text-text-secondary outline-none focus:ring-1 focus:ring-primary"
                             >
-                                <option>Status: All</option>
-                                <option>Active</option>
-                                <option>Inactive</option>
+                                <option>{t('status_all')}</option>
+                                <option>{t('active')}</option>
+                                <option>{t('inactive')}</option>
                             </select>
                         </div>
                     </div>
@@ -229,7 +231,7 @@ export default function UserManagementPage() {
                 <div className="rounded-2xl bg-white shadow-sm ring-1 ring-black/5 overflow-hidden">
                     {isLoading ? (
                         <div className="flex h-64 items-center justify-center">
-                            <p className="animate-pulse text-text-secondary">Loading users...</p>
+                            <p className="animate-pulse text-text-secondary">{t('loading_users')}</p>
                         </div>
                     ) : error ? (
                         <div className="flex h-64 items-center justify-center text-status-rejected">
@@ -239,7 +241,7 @@ export default function UserManagementPage() {
                         <Table
                             columns={[
                                 {
-                                    header: "User",
+                                    header: t('users').slice(0, -1),
                                     accessor: (item: APIUser) => (
                                         <div className="flex items-center gap-3">
                                             <div className={cn(
@@ -258,7 +260,7 @@ export default function UserManagementPage() {
                                     )
                                 },
                                 {
-                                    header: "Role",
+                                    header: t('role_star').replace('*', ''),
                                     accessor: (item: APIUser) => (
                                         <div className="flex items-center gap-2">
                                             <Shield size={14} className={cn(
@@ -270,21 +272,21 @@ export default function UserManagementPage() {
                                     ),
                                     hiddenOnMobile: true
                                 },
-                                { header: "Country", accessor: (item: APIUser) => item.region || "N/A", className: "text-text-secondary font-medium", hiddenOnMobile: true },
-                                { header: "Phone", accessor: (item: APIUser) => item.phone || "N/A", className: "text-text-secondary tabular-nums", hiddenOnMobile: true },
+                                { header: t('country_zones').split(' ')[0], accessor: (item: APIUser) => item.region || "N/A", className: "text-text-secondary font-medium", hiddenOnMobile: true },
+                                { header: t('phone'), accessor: (item: APIUser) => item.phone || "N/A", className: "text-text-secondary tabular-nums", hiddenOnMobile: true },
                                 {
-                                    header: "Status",
+                                    header: t('status'), 
                                     accessor: (item: APIUser) => (
                                         <div className="flex items-center gap-2">
                                             <div className={cn("h-2 w-2 rounded-full", item.status === "active" ? "bg-green-500" : "bg-gray-300")} />
                                             <span className={cn("text-xs font-bold", item.status === "active" ? "text-green-600" : "text-gray-400")}>
-                                                {item.status === "active" ? "Active" : "Inactive"}
+                                                {item.status === "active" ? t('active') : t('inactive')}
                                             </span>
                                         </div>
                                     )
                                 },
                                 ...(user?.role === 'admin' ? [{
-                                    header: "Actions",
+                                    header: t('actions'), 
                                     accessor: (item: APIUser) => (
                                         <div className="flex items-center gap-2">
                                             <button 
@@ -325,12 +327,12 @@ export default function UserManagementPage() {
                         setEditingUser(null);
                         resetForm();
                     }}
-                    title={editingUser ? "Edit Team Member" : "Add New Team Member"}
+                    title={editingUser ? t('edit_team_member') : t('add_team_member')}
                 >
                     <form className="space-y-4 py-2" onSubmit={handleCreateUser}>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <Input
-                                label="Full Name*"
+                                label={t('full_name').concat('*')}
                                 placeholder="e.g. Jean Dupont"
                                 required
                                 icon={<User size={16} />}
@@ -338,7 +340,7 @@ export default function UserManagementPage() {
                                 onChange={(e) => setNewUserName(e.target.value)}
                             />
                             <Input
-                                label="Email address*"
+                                label={t('email_address').concat('*')}
                                 type="email"
                                 placeholder="jean@fids.com"
                                 required
@@ -360,8 +362,8 @@ export default function UserManagementPage() {
                                     <option value="farmer">Farmer</option>
                                 </select>
                             </div>
-                             <div className="space-y-1.5">
-                                <label className="text-sm font-bold text-text-primary">Country*</label>
+                            <div className="space-y-1.5">
+                                <label className="text-sm font-bold text-text-primary">{t('category_star').replace('Category', t('country_zones').split(' ')[0])}</label>
                                 <select
                                     className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm outline-none focus:ring-2 focus:ring-primary cursor-pointer"
                                     value={newUserCountry}
@@ -379,7 +381,7 @@ export default function UserManagementPage() {
                             </div>
                         </div>
                         <Input
-                            label="Phone Number"
+                            label={t('phone_number')}
                             placeholder="+221 ..."
                             icon={<Phone size={16} />}
                             value={newUserPhone}
@@ -387,7 +389,7 @@ export default function UserManagementPage() {
                         />
 
                         <div className="rounded-lg bg-primary/5 p-4 border border-primary/10 text-primary text-xs font-medium leading-relaxed">
-                            {editingUser ? "Updating this account will save the new details immediately." : "Creating a new account will generate a default password \"password123\". The user can change it later."}
+                            {editingUser ? t('user_update_immediate') : t('user_creation_default_pass')}
                         </div>
 
                         {createError && (
@@ -398,7 +400,7 @@ export default function UserManagementPage() {
 
                         <div className="flex flex-col gap-2 pt-4">
                             <Button type="submit" className="font-bold py-6 text-lg shadow-lg shadow-primary/20" isLoading={isCreating}>
-                                {editingUser ? "Save Changes" : "Create User & Send Invite"}
+                                {editingUser ? t('save_changes') : t('create_user_invite')}
                             </Button>
                             <Button 
                                 type="button" 
@@ -410,7 +412,7 @@ export default function UserManagementPage() {
                                     resetForm();
                                 }}
                             >
-                                Cancel
+                                {t('cancel')}
                             </Button>
                         </div>
                     </form>

@@ -273,6 +273,28 @@ const translations: Record<Language, Record<string, string>> = {
     'nav_about': 'About',
     'nav_login': 'Login',
     'nav_get_started': 'Get Started',
+
+    // Impact Section
+    'impact_badge': "Our Impact",
+    'impact_title': "Concrete results for African agriculture",
+    'impact_stat_1_label': "Yield Increase",
+    'impact_stat_2_label': "Waste Reduction",
+    'impact_stat_3_label': "Connected Farmers",
+    'impact_description': "We are transforming the agricultural landscape by providing smallholders with the tools and inputs they need to succeed.",
+
+    // Technology Section
+    'tech_badge': "Innovation & Security",
+    'tech_title': "World-Class Infrastructure",
+    'tech_item_1_title': "Artificial Intelligence",
+    'tech_item_1_desc': "Demand forecasting based on historical and climate data.",
+    'tech_item_2_title': "Maximum Security",
+    'tech_item_2_desc': "Encrypted data and compliance with international standards.",
+    'tech_item_3_title': "Hybrid Cloud",
+    'tech_item_3_desc': "99.9% availability even in areas with low connectivity.",
+
+    // Hero Interactivity
+    'hero_demo_title': "Discover AgriFlow in Action",
+    'hero_demo_close': "Close"
   },
   fr: {
     'search_dashboard': 'Rechercher...',
@@ -534,8 +556,30 @@ const translations: Record<Language, Record<string, string>> = {
     'nav_tech': 'Technologie',
     'nav_about': 'À propos',
     'nav_login': 'Connexion',
-    'nav_get_started': 'Démarrer',
-  },
+        'nav_get_started': 'Démarrer',
+
+        // Impact Section
+        'impact_badge': "Notre Impact",
+        'impact_title': "Des résultats concrets pour l'agriculture africaine",
+        'impact_stat_1_label': "Augmentation des rendements",
+        'impact_stat_2_label': "Réduction des pertes",
+        'impact_stat_3_label': "Agriculteurs connectés",
+        'impact_description': "Nous transformons le paysage agricole en fournissant aux petits exploitants les outils et les intrants nécessaires à leur réussite.",
+
+        // Technology Section
+        'tech_badge': "Innovation & Sécurité",
+        'tech_title': "Une infrastructure de classe mondiale",
+        'tech_item_1_title': "Intelligence Artificielle",
+        'tech_item_1_desc': "Prévisions de demande basées sur les données historiques et climatiques.",
+        'tech_item_2_title': "Sécurité Maximale",
+        'tech_item_2_desc': "Données chiffrées et conformité aux standards internationaux.",
+        'tech_item_3_title': "Cloud Hybride",
+        'tech_item_3_desc': "Disponibilité de 99.9% même dans les zones à faible connectivité.",
+
+        // Hero Interactivity
+        'hero_demo_title': "Découvrez AgriFlow en action",
+        'hero_demo_close': "Fermer"
+    },
   pt: {
     'search_dashboard': 'Pesquisar...',
     'my_profile': 'Meu Perfil',

@@ -5,7 +5,15 @@ import { Search, ChevronDown, Check } from 'lucide-react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { cn } from '@/lib/utils';
 
-export const LanguageSelector: React.FC = () => {
+interface LanguageSelectorProps {
+  variant?: 'default' | 'landing';
+  isScrolled?: boolean;
+}
+
+export const LanguageSelector: React.FC<LanguageSelectorProps> = ({ 
+  variant = 'default',
+  isScrolled = false 
+}) => {
   const { language, setLanguage, languages, t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -31,7 +39,17 @@ export const LanguageSelector: React.FC = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 rounded-lg bg-gray-100/50 px-3 py-1.5 transition-all hover:bg-gray-100 border border-transparent hover:border-gray-200"
+        className={cn(
+          "flex items-center gap-2 rounded-lg px-3 py-1.5 transition-all border border-transparent shadow-sm",
+          variant === 'default' 
+            ? "bg-gray-100/50 hover:bg-gray-100 hover:border-gray-200" 
+            : cn(
+                "hover:border-white/20",
+                isScrolled 
+                  ? "bg-gray-100/50 text-text-primary hover:bg-gray-100" 
+                  : "bg-white/10 text-white hover:bg-white/20"
+              )
+        )}
       >
         <span className="text-lg">{currentLang.flag}</span>
         <span className="text-sm font-semibold uppercase">{currentLang.code}</span>
@@ -78,10 +96,10 @@ export const LanguageSelector: React.FC = () => {
               })}
             </div>
 
-            <button
-               onClick={() => setIsOpen(false)}
-               className="mt-4 w-full rounded-xl bg-primary py-3 text-sm font-bold text-white transition-transform active:scale-95 bg-[#ff0066]"
-            >
+             <button
+                onClick={() => setIsOpen(false)}
+                className="mt-4 w-full rounded-xl bg-primary py-3 text-sm font-bold text-white transition-transform active:scale-95"
+             >
               Sauvegarder
             </button>
           </div>

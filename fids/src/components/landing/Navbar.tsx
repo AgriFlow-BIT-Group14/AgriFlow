@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Leaf } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { LanguageSelector } from "@/components/layout/LanguageSelector";
 
 export function Navbar() {
     const [isScrolled, setIsScrolled] = React.useState(false);
@@ -51,6 +52,8 @@ export function Navbar() {
                 </div>
 
                 <div className="flex items-center gap-4">
+                    <LanguageSelector variant="landing" isScrolled={isScrolled} />
+                    <div className="h-8 w-px bg-current opacity-10 mx-2" />
                     <Link href="/login">
                         <Button 
                             variant={isScrolled ? "outline" : "ghost"} 

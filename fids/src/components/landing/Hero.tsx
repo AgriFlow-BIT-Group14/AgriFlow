@@ -28,23 +28,23 @@ export function Hero() {
                         {t('hero_tech_badge')}
                     </div>
                     
-                    <h1 className="text-5xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
+                    <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
                         {t('hero_title_1')} <br />
                         <span className="text-secondary">{t('hero_title_2')}</span> <br />
                         {t('hero_title_3')}
                     </h1>
                     
-                    <p className="max-w-xl text-lg lg:text-xl text-white/70 font-medium leading-relaxed">
+                    <p className="max-w-xl text-base sm:text-lg lg:text-xl text-white/70 font-medium leading-relaxed mx-auto lg:mx-0">
                         {t('hero_subtitle')}
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                         <Link href="/login" className="w-full sm:w-auto">
                             <Button className="h-14 px-10 text-lg font-bold w-full shadow-2xl shadow-primary/40 hover:scale-105 transition-transform">
                                 {t('hero_cta_start')} <ArrowRight className="ml-2" size={20} />
                             </Button>
                         </Link>
-                        <Button variant="ghost" className="h-14 px-8 text-white font-bold hover:bg-white/10 gap-2">
+                        <Button variant="ghost" className="h-14 px-8 text-white font-bold hover:bg-white/10 gap-2 w-full sm:w-auto">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
                                 <Play size={16} fill="white" />
                             </div>
@@ -52,15 +52,15 @@ export function Hero() {
                         </Button>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/10">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 pt-8 border-t border-white/10">
                         {[
                             { label: t('hero_stat_farmers'), value: '300+' },
                             { label: t('hero_stat_countries'), value: '10+' },
                             { label: t('hero_stat_deliveries'), value: '5k+' },
                         ].map((stat) => (
-                            <div key={stat.label}>
-                                <div className="text-2xl font-black text-white">{stat.value}</div>
-                                <div className="text-xs font-bold text-white/40 uppercase tracking-widest">{stat.label}</div>
+                            <div key={stat.label} className="flex flex-col items-center lg:items-start">
+                                <div className="text-2xl sm:text-3xl font-black text-white">{stat.value}</div>
+                                <div className="text-[10px] sm:text-xs font-bold text-white/40 uppercase tracking-widest">{stat.label}</div>
                             </div>
                         ))}
                     </div>

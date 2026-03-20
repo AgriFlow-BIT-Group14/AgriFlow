@@ -3,8 +3,10 @@
 import * as React from "react";
 import Link from "next/link";
 import { Leaf, Twitter, Github, Linkedin, Mail } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function Footer() {
+    const { t } = useTranslation();
     return (
         <footer className="bg-sidebar text-white/70 py-16">
             <div className="max-w-7xl mx-auto px-6">
@@ -17,7 +19,7 @@ export function Footer() {
                             </span>
                         </Link>
                         <p className="text-sm font-medium leading-relaxed max-w-xs">
-                            AgriFlow est une plateforme dédiée à l'optimisation de la chaîne d'approvisionnement agricole en Afrique.
+                            {t('footer_desc')}
                         </p>
                         <div className="flex gap-4">
                             {[Twitter, Github, Linkedin, Mail].map((Icon, i) => (
@@ -29,16 +31,30 @@ export function Footer() {
                     </div>
 
                     {[
-                        { title: 'Produit', links: ['Tableau de bord', 'Analyses', 'Inventaire', 'Livraisons'] },
-                        { title: 'Entreprise', links: ['À propos', 'Impact', 'Blog', 'Carrières'] },
-                        { title: 'Légal', links: ['Confidentialité', 'Conditions d\'utilisation', 'Cookies'] }
+                        { title: t('footer_nav_product'), links: [
+                            { key: 'footer_link_dashboard', label: t('footer_link_dashboard') },
+                            { key: 'footer_link_analytics', label: t('footer_link_analytics') },
+                            { key: 'footer_link_inventory', label: t('footer_link_inventory') },
+                            { key: 'footer_link_deliveries', label: t('footer_link_deliveries') }
+                        ] },
+                        { title: t('footer_nav_company'), links: [
+                            { key: 'footer_link_about', label: t('footer_link_about') },
+                            { key: 'footer_link_impact', label: t('footer_link_impact') },
+                            { key: 'footer_link_blog', label: t('footer_link_blog') },
+                            { key: 'footer_link_careers', label: t('footer_link_careers') }
+                        ] },
+                        { title: t('footer_nav_legal'), links: [
+                            { key: 'footer_link_privacy', label: t('footer_link_privacy') },
+                            { key: 'footer_link_terms', label: t('footer_link_terms') },
+                            { key: 'footer_link_cookies', label: t('footer_link_cookies') }
+                        ] }
                     ].map((section) => (
                         <div key={section.title} className="space-y-6">
                             <h5 className="text-white font-black text-lg">{section.title}</h5>
                             <ul className="space-y-4">
                                 {section.links.map((link) => (
-                                    <li key={link}>
-                                        <a href="#" className="text-sm font-bold hover:text-white transition-colors">{link}</a>
+                                    <li key={link.key}>
+                                        <a href="#" className="text-sm font-bold hover:text-white transition-colors">{link.label}</a>
                                     </li>
                                 ))}
                             </ul>
@@ -47,8 +63,8 @@ export function Footer() {
                 </div>
 
                 <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold uppercase tracking-widest text-white/20">
-                    <p>© 2024 AgriFlow. Tous droits réservés.</p>
-                    <p>Fait avec ❤️ pour l'Afrique.</p>
+                    <p>{t('footer_rights')}</p>
+                    <p>{t('footer_made_with')}</p>
                 </div>
             </div>
         </footer>

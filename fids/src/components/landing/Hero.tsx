@@ -4,8 +4,10 @@ import * as React from "react";
 import { Button } from "@/components/ui/Button";
 import { ArrowRight, Play, Server, Shield, Globe } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function Hero() {
+    const { t } = useTranslation();
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-sidebar">
             {/* Background Image with Overlay */}
@@ -23,38 +25,38 @@ export function Hero() {
                 <div className="flex-1 space-y-8 animate-in fade-in slide-in-from-left duration-1000">
                     <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-sm font-bold text-secondary">
                         <span className="flex h-2 w-2 rounded-full bg-secondary animate-pulse" />
-                        Technologie Agricole de Pointe
+                        {t('hero_tech_badge')}
                     </div>
                     
                     <h1 className="text-5xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
-                        Révolutionner la <br />
-                        <span className="text-secondary">Distribution Agricole</span> <br />
-                        en Afrique
+                        {t('hero_title_1')} <br />
+                        <span className="text-secondary">{t('hero_title_2')}</span> <br />
+                        {t('hero_title_3')}
                     </h1>
                     
                     <p className="max-w-xl text-lg lg:text-xl text-white/70 font-medium leading-relaxed">
-                        AgriFlow optimise la chaîne d'approvisionnement des semences et engrais pour des milliers de producteurs à travers le Burkina Faso et l'Afrique de l'Ouest.
+                        {t('hero_subtitle')}
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center gap-4">
                         <Link href="/login" className="w-full sm:w-auto">
                             <Button className="h-14 px-10 text-lg font-bold w-full shadow-2xl shadow-primary/40 hover:scale-105 transition-transform">
-                                Démarrer l'expérience <ArrowRight className="ml-2" size={20} />
+                                {t('hero_cta_start')} <ArrowRight className="ml-2" size={20} />
                             </Button>
                         </Link>
                         <Button variant="ghost" className="h-14 px-8 text-white font-bold hover:bg-white/10 gap-2">
                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
                                 <Play size={16} fill="white" />
                             </div>
-                            Voir la démo
+                            {t('hero_cta_demo')}
                         </Button>
                     </div>
 
                     <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/10">
                         {[
-                            { label: 'Producteurs', value: '300+' },
-                            { label: 'Pays', value: '10+' },
-                            { label: 'Livraisons', value: '5k+' },
+                            { label: t('hero_stat_farmers'), value: '300+' },
+                            { label: t('hero_stat_countries'), value: '10+' },
+                            { label: t('hero_stat_deliveries'), value: '5k+' },
                         ].map((stat) => (
                             <div key={stat.label}>
                                 <div className="text-2xl font-black text-white">{stat.value}</div>
@@ -112,8 +114,8 @@ export function Hero() {
                             <Globe size={24} />
                         </div>
                         <div>
-                            <div className="text-xs font-bold text-text-secondary">Statut</div>
-                            <div className="text-sm font-black text-text-primary">Système Actif</div>
+                            <div className="text-xs font-bold text-text-secondary">{t('hero_status_label')}</div>
+                            <div className="text-sm font-black text-text-primary">{t('hero_status_active')}</div>
                         </div>
                     </div>
                 </div>

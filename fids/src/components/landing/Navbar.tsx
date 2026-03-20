@@ -6,8 +6,10 @@ import { Leaf } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 import { LanguageSelector } from "@/components/layout/LanguageSelector";
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function Navbar() {
+    const { t } = useTranslation();
     const [isScrolled, setIsScrolled] = React.useState(false);
 
     React.useEffect(() => {
@@ -37,16 +39,21 @@ export function Navbar() {
                 </Link>
 
                 <div className="hidden md:flex items-center gap-8">
-                    {['Solutions', 'Impact', 'Technologie', 'A propos'].map((item) => (
+                    {[
+                        { key: 'nav_solutions', label: t('nav_solutions') },
+                        { key: 'nav_impact', label: t('nav_impact') },
+                        { key: 'nav_tech', label: t('nav_tech') },
+                        { key: 'nav_about', label: t('nav_about') }
+                    ].map((item) => (
                         <Link 
-                            key={item} 
+                            key={item.key} 
                             href="#" 
                             className={cn(
                                 "text-sm font-bold transition-all hover:text-secondary",
                                 isScrolled ? "text-text-secondary" : "text-white/80"
                             )}
                         >
-                            {item}
+                            {item.label}
                         </Link>
                     ))}
                 </div>
@@ -62,12 +69,12 @@ export function Navbar() {
                                 !isScrolled && "text-white hover:bg-white/10"
                             )}
                         >
-                            Connexion
+                            {t('nav_login')}
                         </Button>
                     </Link>
                     <Link href="/login">
                         <Button className="font-bold h-10 px-6 shadow-lg shadow-primary/20">
-                            Démarrer
+                            {t('nav_get_started')}
                         </Button>
                     </Link>
                 </div>

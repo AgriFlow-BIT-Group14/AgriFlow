@@ -3,57 +3,60 @@
 import * as React from "react";
 import { Package, Truck, PieChart, Users, Smartphone, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-const features = [
-    {
-        title: "Gestion d'Inventaire Intelligente",
-        desc: "Suivez vos stocks de semences et d'engrais en temps réel avec des alertes de seuil critique.",
-        icon: Package,
-        color: "bg-primary/10 text-primary"
-    },
-    {
-        title: "Distribution Traçable",
-        desc: "Coordonnez la logistique et suivez chaque livraison de l'entrepôt jusqu'au producteur.",
-        icon: Truck,
-        color: "bg-secondary/10 text-secondary"
-    },
-    {
-        title: "Analyses de Performance",
-        desc: "Visualisez l'impact de la distribution par pays avec des rapports détaillés et prédictifs.",
-        icon: PieChart,
-        color: "bg-accent/10 text-accent"
-    },
-    {
-        title: "Réseau de Producteurs",
-        desc: "Gérez une base de données complète de producteurs avec leur historique et besoins spécifiques.",
-        icon: Users,
-        color: "bg-blue-50 text-blue-600"
-    },
-    {
-        title: "Interface Mobile First",
-        desc: "Accédez à vos données partout. Optimisé pour une utilisation sur le terrain.",
-        icon: Smartphone,
-        color: "bg-purple-50 text-purple-600"
-    },
-    {
-        title: "Sécurité & Contrôle",
-        desc: "Permissions basées sur les rôles (Admin, Distributeur, Producteur) pour une sécurité maximale.",
-        icon: ShieldCheck,
-        color: "bg-green-50 text-green-700"
-    }
-];
+import { useTranslation } from "@/hooks/useTranslation";
 
 export function Features() {
+    const { t } = useTranslation();
+
+    const features = [
+        {
+            title: t('feature_inventory_title'),
+            desc: t('feature_inventory_desc'),
+            icon: Package,
+            color: "bg-primary/10 text-primary"
+        },
+        {
+            title: t('feature_distribution_title'),
+            desc: t('feature_distribution_desc'),
+            icon: Truck,
+            color: "bg-secondary/10 text-secondary"
+        },
+        {
+            title: t('feature_analytics_title'),
+            desc: t('feature_analytics_desc'),
+            icon: PieChart,
+            color: "bg-accent/10 text-accent"
+        },
+        {
+            title: t('feature_network_title'),
+            desc: t('feature_network_desc'),
+            icon: Users,
+            color: "bg-blue-50 text-blue-600"
+        },
+        {
+            title: t('feature_mobile_title'),
+            desc: t('feature_mobile_desc'),
+            icon: Smartphone,
+            color: "bg-purple-50 text-purple-600"
+        },
+        {
+            title: t('feature_security_title'),
+            desc: t('feature_security_desc'),
+            icon: ShieldCheck,
+            color: "bg-green-50 text-green-700"
+        }
+    ];
+
     return (
         <section className="py-24 bg-background relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6">
                 <div className="text-center max-w-3xl mx-auto mb-20 space-y-4">
-                    <h2 className="text-sm font-bold text-primary uppercase tracking-widest">Fonctionnalités Clés</h2>
+                    <h2 className="text-sm font-bold text-primary uppercase tracking-widest">{t('features_badge')}</h2>
                     <h3 className="text-4xl lg:text-5xl font-black text-text-primary leading-tight">
-                        Tout ce dont vous avez besoin pour <span className="text-primary italic">nourrir l'Afrique</span>.
+                        {t('features_title_1')} <span className="text-primary italic">{t('features_title_2')}</span>.
                     </h3>
                     <p className="text-text-secondary text-lg font-medium">
-                        Une plateforme intégrée pour transformer la chaîne de valeur agricole avec des données fiables et une gestion optimisée.
+                        {t('features_subtitle')}
                     </p>
                 </div>
 

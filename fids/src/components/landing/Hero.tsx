@@ -32,18 +32,18 @@ export function Hero() {
                     
                     <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-[1.1] tracking-tight">
                         {t('hero_title_1')} <br />
-                        <span className="text-secondary">{t('hero_title_2')}</span> <br />
+                        <span className="text-secondary">Distribution Hub</span> <br />
                         {t('hero_title_3')}
                     </h1>
                     
                     <p className="max-w-xl text-base sm:text-lg lg:text-xl text-white/70 font-medium leading-relaxed mx-auto lg:mx-0">
-                        {t('hero_subtitle')}
+                        La plateforme professionnelle de gestion des intrants agricoles dédiée aux administrateurs nationaux et aux réseaux de distributeurs agréés au Burkina Faso.
                     </p>
 
                     <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
                         <Link href="/login" className="w-full sm:w-auto">
-                            <Button className="h-14 px-10 text-lg font-bold w-full shadow-2xl shadow-primary/40 hover:scale-105 transition-transform">
-                                {t('hero_cta_start')} <ArrowRight className="ml-2" size={20} />
+                            <Button className="h-14 px-10 text-lg font-bold w-full shadow-2xl shadow-primary/40 hover:scale-105 transition-transform uppercase tracking-widest">
+                                Accéder au Portail <ArrowRight className="ml-2" size={20} />
                             </Button>
                         </Link>
                         <Button 
@@ -131,34 +131,53 @@ export function Hero() {
             {showDemo && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-sidebar/95 backdrop-blur-2xl animate-in fade-in duration-300">
                     <div className="relative w-full max-w-5xl aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl border border-white/10 group">
-                        {/* Fake Video Player UI */}
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="relative z-10 text-center space-y-6">
-                                <div className="h-24 w-24 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30 animate-pulse">
-                                    <Play fill="white" className="text-white ml-2" size={40} />
-                                </div>
-                                <div className="space-y-2">
-                                    <h4 className="text-2xl font-black text-white">{t('hero_demo_title')}</h4>
-                                    <p className="text-white/40 font-mono text-sm tracking-widest uppercase">Video Placeholder</p>
-                                </div>
-                            </div>
+                        {/* Cinematic Demo Video Representation */}
+                        <div className="absolute inset-0 flex items-center justify-center group/player">
+                            <img 
+                                src="/images/demo-video-thumb.png" 
+                                className="w-full h-full object-cover transition-transform duration-[10s] group-hover/player:scale-110" 
+                                alt="Demo Content"
+                            />
+                            <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] group-hover/player:backdrop-blur-0 transition-all duration-700" />
                             
-                            {/* Decorative background for fake video */}
-                            <div className="absolute inset-0">
-                                <img src="/images/hero-bg.png" className="w-full h-full object-cover blur-sm opacity-30" />
-                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/40 to-secondary/40 mix-blend-overlay" />
+                            <div className="relative z-10 text-center space-y-6 group-hover/player:scale-110 transition-transform duration-500">
+                                <div className="h-24 w-24 rounded-full bg-primary/20 backdrop-blur-xl flex items-center justify-center border border-primary/40 shadow-2xl shadow-primary/20 group-hover/player:bg-primary/40 transition-colors">
+                                    <div className="h-16 w-16 rounded-full bg-primary flex items-center justify-center text-white shadow-xl animate-pulse">
+                                        <Play fill="white" className="ml-1" size={32} />
+                                    </div>
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="text-3xl font-black text-white drop-shadow-2xl">{t('hero_demo_title')}</h4>
+                                    <div className="flex items-center justify-center gap-2">
+                                        <span className="h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                                        <p className="text-white/80 font-bold text-sm uppercase tracking-[0.2em]">Live Demo Preview</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        {/* Controls */}
-                        <div className="absolute bottom-0 left-0 right-0 p-8 flex items-center justify-between bg-gradient-to-t from-black/80 to-transparent">
-                            <div className="flex items-center gap-4">
-                                <div className="h-1.5 w-48 rounded-full bg-white/20">
-                                    <div className="h-full w-1/3 rounded-full bg-primary" />
+                        {/* Controls Overlay */}
+                        <div className="absolute bottom-0 left-0 right-0 p-8 flex items-center justify-between bg-gradient-to-t from-black/90 via-black/40 to-transparent translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                            <div className="flex items-center gap-6 w-full max-w-xl">
+                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white">
+                                    <Play size={16} fill="white" />
                                 </div>
-                                <span className="text-xs font-mono text-white/40">01:24 / 03:45</span>
+                                <div className="flex-1 space-y-2">
+                                    <div className="h-1 w-full rounded-full bg-white/20 relative overflow-hidden">
+                                        <div className="absolute inset-y-0 left-0 w-1/3 bg-primary animate-[shimmer_2s_infinite]" />
+                                    </div>
+                                    <div className="flex justify-between items-center text-[10px] font-mono text-white/60 tracking-wider">
+                                        <span>01:42</span>
+                                        <span className="text-primary font-bold tracking-[0.3em]">PROCESSING DATA...</span>
+                                        <span>04:15</span>
+                                    </div>
+                                </div>
                             </div>
-                            <Button variant="ghost" className="text-white hover:bg-white/10" onClick={() => setShowDemo(false)}>
+                            <Button 
+                                variant="ghost" 
+                                className="text-white font-black uppercase tracking-widest text-xs hover:bg-white/10 px-6 h-10 border border-white/10" 
+                                onClick={() => setShowDemo(false)}
+                            >
                                 {t('hero_demo_close')}
                             </Button>
                         </div>

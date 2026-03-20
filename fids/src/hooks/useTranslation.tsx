@@ -294,7 +294,17 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Hero Interactivity
     'hero_demo_title': "Discover AgriFlow in Action",
-    'hero_demo_close': "Close"
+    'hero_demo_close': "Close",
+
+    // Products Section
+    'products_badge': "Our Catalogue",
+    'products_title': "Premium Quality Inputs",
+    'product_1_title': "Hybrid Corn Seeds",
+    'product_1_desc': "High-yield, drought-resistant varieties.",
+    'product_2_title': "Premium NPK Fertilizer",
+    'product_2_desc': "Optimized formulation for African soils.",
+    'product_3_title': "Sustainable Management",
+    'product_3_desc': "Environmentally friendly soil nutrition solutions."
   },
   fr: {
     'search_dashboard': 'Rechercher...',
@@ -578,7 +588,17 @@ const translations: Record<Language, Record<string, string>> = {
 
         // Hero Interactivity
         'hero_demo_title': "Découvrez AgriFlow en action",
-        'hero_demo_close': "Fermer"
+        'hero_demo_close': "Fermer",
+
+        // Products Section
+        'products_badge': "Notre Catalogue",
+        'products_title': "Des intrants de première qualité",
+        'product_1_title': "Semences de Maïs Hybride",
+        'product_1_desc': "Variétés à haut rendement résistantes à la sécheresse.",
+        'product_2_title': "Engrais NPK Premium",
+        'product_2_desc': "Formulation optimisée pour les sols africains.",
+        'product_3_title': "Gestion Durable",
+        'product_3_desc': "Solutions de nutrition des sols respectueuses de l'environnement."
     },
   pt: {
     'search_dashboard': 'Pesquisar...',

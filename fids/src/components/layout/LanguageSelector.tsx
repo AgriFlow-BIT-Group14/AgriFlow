@@ -100,7 +100,7 @@ export const LanguageSelector: React.FC<LanguageSelectorProps> = ({
                 onClick={() => setIsOpen(false)}
                 className="mt-4 w-full rounded-xl bg-primary py-3 text-sm font-bold text-white transition-transform active:scale-95"
              >
-              Sauvegarder
+              {t('save')}
             </button>
           </div>
         </div>

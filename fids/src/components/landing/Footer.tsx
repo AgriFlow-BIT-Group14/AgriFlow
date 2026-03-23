@@ -54,7 +54,13 @@ export function Footer() {
                             <ul className="space-y-4">
                                 {section.links.map((link) => (
                                     <li key={link.key}>
-                                        <a href="#" className="text-sm font-bold hover:text-white transition-colors">{link.label}</a>
+                                        <Link href={link.key.includes('dashboard') ? '/dashboard' : 
+                                                   link.key.includes('analytics') ? '/reports' : 
+                                                   link.key.includes('inventory') ? '/inventory' : 
+                                                   link.key.includes('deliveries') ? '/deliveries' : '#'} 
+                                              className="text-sm font-bold hover:text-white transition-colors">
+                                            {link.label}
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>

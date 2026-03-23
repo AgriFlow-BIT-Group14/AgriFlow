@@ -15,13 +15,13 @@ export const metadata: Metadata = {
   },
   description: "Optimisez votre rendement agricole avec AgriFlow. Solution numérique pour la gestion et la distribution d'engrais et semences certifiées au Burkina Faso et en Afrique de l'Ouest.",
   keywords: [
-    "AgriFlow", 
-    "Agriculture numérique Burkina Faso", 
-    "Achat engrais en ligne", 
-    "Semences certifiées Afrique de l'Ouest", 
-    "Distribution intrants agricoles", 
-    "Modernisation agriculture", 
-    "Gestion stocks agricoles", 
+    "AgriFlow",
+    "Agriculture numérique Burkina Faso",
+    "Achat engrais en ligne",
+    "Semences certifiées Afrique de l'Ouest",
+    "Distribution intrants agricoles",
+    "Modernisation agriculture",
+    "Gestion stocks agricoles",
     "Fertilisants certifiés",
     "Digital agriculture Africa",
     "Agtech Burkina",
@@ -75,7 +75,17 @@ export const metadata: Metadata = {
     "CEDEAO politique agricole",
     "Innovation agricole Burkina"
   ],
+  metadataBase: new URL('https://agriflow.vercel.app'),
   authors: [{ name: "AgriFlow Team" }],
+  alternates: {
+    canonical: '/',
+    languages: {
+      'en-US': '/?lang=en',
+      'fr-FR': '/?lang=fr',
+      'pt-BR': '/?lang=pt',
+      'es-ES': '/?lang=es',
+    },
+  },
   openGraph: {
     type: "website",
     locale: "fr_FR",
@@ -108,7 +118,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    google: "google-site-verification-id", // User should replace this
+    google: "F2PJsA9LRgLdGifaEakE0iTd1I2x3YDrowGwZnD3VO8",
   }
 };
 

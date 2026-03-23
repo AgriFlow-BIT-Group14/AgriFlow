@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     "CEDEAO politique agricole",
     "Innovation agricole Burkina"
   ],
-  metadataBase: new URL('https://agriflow.vercel.app'),
+  metadataBase: new URL('https://agri-flow-self.vercel.app'),
   authors: [{ name: "AgriFlow Team" }],
   alternates: {
     canonical: '/',
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://agriflow.vercel.app",
+    url: "https://agri-flow-self.vercel.app",
     siteName: "AgriFlow",
     title: "AgriFlow - Digitaliser la distribution agricole pour un meilleur rendement",
     description: "La plateforme de référence pour la gestion transparente et efficace des intrants agricoles au Burkina Faso.",

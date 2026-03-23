@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/api/', '/admin/'], // If there are any restricted paths
     },
-    sitemap: 'https://agriflow.vercel.app/sitemap.xml',
+    sitemap: 'https://agri-flow-self.vercel.app/sitemap.xml',
   }
 }

@@ -76,7 +76,7 @@ export default function OrdersPage() {
         const matchesTab = activeTab === "all" || order.status === activeTab;
         const matchesSearch =
             order._id.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            order.user.name.toLowerCase().includes(searchQuery.toLowerCase());
+            (order.user?.name ?? '').toLowerCase().includes(searchQuery.toLowerCase());
         return matchesTab && matchesSearch;
     });
 
@@ -219,24 +219,24 @@ export default function OrdersPage() {
                                     accessor: (item: APIOrder) => (
                                         <div className="flex items-center gap-3">
                                             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary font-bold border border-primary/20 shadow-sm">
-                                                {item.user.name.charAt(0)}
+                                                {item.user?.name?.charAt(0) ?? '?'}
                                             </div>
                                             <div>
-                                                <p className="font-semibold text-text-primary">{item.user.name}</p>
-                                                <Badge status="approved" className="mt-0.5 h-4 px-1.5 text-[9px] uppercase tracking-wider">{item.user.country || "Burkina Faso"}</Badge>
+                                                <p className="font-semibold text-text-primary">{item.user?.name ?? 'N/A'}</p>
+                                                <Badge status="approved" className="mt-0.5 h-4 px-1.5 text-[9px] uppercase tracking-wider">{item.user?.country ?? "Burkina Faso"}</Badge>
                                             </div>
                                         </div>
                                     )
                                 },
                                 {
                                     header: t('products'),
-                                    accessor: (item: APIOrder) => item.orderItems.map(i => i.name).join(", "),
+                                    accessor: (item: APIOrder) => item.orderItems?.map(i => i.name).join(", ") ?? 'N/A',
                                     className: "max-w-[200px] truncate",
                                     hiddenOnMobile: true
                                 },
                                 {
                                     header: t('quantity'),
-                                    accessor: (item: APIOrder) => item.orderItems.reduce((acc, i) => acc + i.qty, 0).toString(),
+                                    accessor: (item: APIOrder) => (item.orderItems?.reduce((acc, i) => acc + i.qty, 0) ?? 0).toString(),
                                     className: "text-text-secondary font-medium",
                                     hiddenOnMobile: true
                                 },

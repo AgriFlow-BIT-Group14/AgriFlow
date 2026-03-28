@@ -21,7 +21,7 @@ const PERSONA_PROMPTS: Record<AIPersona, string> = {
     inventory: `AgriFlow Inventory: Stock management specialist for seeds and fertilizers. You can see and analyze warehouse photos.`
 };
 
-export const getChatCompletion = async (messages: Message[], persona: AIPersona = 'neural', images?: string[]) => {
+export const getChatCompletion = async (messages: Message[], persona: AIPersona = 'neural', images?: string[], detectedLanguage?: string, isVoiceSource = false) => {
     const apiKey = getApiKey();
     
     if (!apiKey) {
@@ -29,21 +29,17 @@ export const getChatCompletion = async (messages: Message[], persona: AIPersona 
     }
 
     const basePrompt = PERSONA_PROMPTS[persona];
+    const langInstruction = detectedLanguage
+        ? `\n\n        ### LANGUE DE RÉPONSE OBLIGATOIRE:\n        L'utilisateur écrit en : **${detectedLanguage}**. Tu DOIS répondre UNIQUEMENT en ${detectedLanguage}. C'est OBLIGATOIRE.`
+        : '';
+        
+    const voiceInstruction = isVoiceSource
+        ? `\n\n        ### INSTRUCTION VOCALE:\n        L'utilisateur te parle via le microphone et ta réponse sera lue par un système de synthèse vocale. Tu DOIS être très conversationnel, direct, et surtout extrêmement court (1 ou 2 phrases courtes maximum). Ne fais pas de listes ni de markdown lourd.`
+        : '';
+
     const systemPrompt: Message = {
         role: 'system',
-        content: `### IDENTITY:
-        ${basePrompt}
-        
-        ### CRITICAL LANGUAGE RULE:
-        - ALWAYS detect the language of the user's message.
-        - ALWAYS respond in that SAME EXACT language (English, French, Spanish, Portuguese, etc.).
-        - If the user switches languages, YOU switch immediately.
-        - DO NOT assume a default language based on the project location (Burkina Faso).
-        
-        ### CONTEXT:
-        - AgriFlow: Digital agricultural distribution system.
-        - Currency: Always use "FCFA".
-        - Tone: Professional, concise, direct.`
+        content: `### IDENTITY:\n        ${basePrompt}\n        \n        ### CRITICAL LANGUAGE RULE — ABSOLUTE PRIORITY:\n        - ALWAYS detect the language of the user's message.\n        - ALWAYS respond in that SAME EXACT language (English, French, Spanish, Portuguese, etc.).\n        - If the user switches languages, YOU switch immediately.\n        - NEVER respond in Swahili unless the user speaks Swahili.\n        - DO NOT assume a default language based on the project location (Burkina Faso).\n        \n        ### CONTEXT:\n        - AgriFlow: Digital agricultural distribution system.\n        - Currency: Always use "FCFA".\n        - Tone: Professional, concise, direct.${langInstruction}${voiceInstruction}`
     };
 
     // Use vision model if images are present, otherwise stick to faster text model

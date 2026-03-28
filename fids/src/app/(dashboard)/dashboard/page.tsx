@@ -43,7 +43,7 @@ export default function AdminDashboardPage() {
             setOrders(ordersData);
             setProducts(productsData);
             setUsers(usersData);
-            
+
             // Simulate random weather update
             const weathers = [
                 { condition: "Sunny", advice: "Excellent time for harvesting.", temp: 32 },
@@ -64,11 +64,11 @@ export default function AdminDashboardPage() {
 
     const lowStockCount = products.filter(p => p.stockQuantity < (p.minThreshold || 10)).length;
     const pendingOrdersCount = orders.filter(o => o.status === "pending").length;
-    
+
     // Last 24 hours for Today's Orders to be more resilient
     const last24h = new Date(Date.now() - 24 * 60 * 60 * 1000);
     const todayOrdersCount = orders.filter(o => new Date(o.createdAt) >= last24h).length;
-    
+
     // Active Users (last 30 minutes)
     const activeThreshold = new Date(Date.now() - 30 * 60 * 1000);
     const activeUsersCount = users.filter(u => u.lastSeen && new Date(u.lastSeen) >= activeThreshold).length;
@@ -241,15 +241,15 @@ export default function AdminDashboardPage() {
                                         </span>
                                     )
                                 },
-                                { header: t('farmer_name'), accessor: (item: APIOrder) => item.user.name },
+                                { header: t('farmer_name'), accessor: (item: APIOrder) => item.user?.name ?? 'N/A' },
                                 {
                                     header: t('products'),
-                                    accessor: (item: APIOrder) => item.orderItems.map(i => i.name).join(", "),
+                                    accessor: (item: APIOrder) => item.orderItems?.map(i => i.name).join(", ") ?? 'N/A',
                                     className: "max-w-[150px] truncate"
                                 },
                                 {
                                     header: t('quantity'),
-                                    accessor: (item: APIOrder) => item.orderItems.reduce((acc, i) => acc + i.qty, 0).toString()
+                                    accessor: (item: APIOrder) => (item.orderItems?.reduce((acc, i) => acc + i.qty, 0) ?? 0).toString()
                                 },
                                 {
                                     header: t('status'),

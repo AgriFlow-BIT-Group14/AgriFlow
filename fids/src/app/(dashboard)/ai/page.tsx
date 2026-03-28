@@ -17,8 +17,8 @@ const PERSONAS: { id: AIPersona, name: string, sub: string, icon: React.ElementT
         sub: 'Neural Active', 
         icon: Bot, 
         color: 'bg-primary',
-        desc: 'Primary system oversight and general assistance.',
-        welcome: 'Hello! I am AgriFlow Neural. I oversee the entire platform operations. How can I assist you today?'
+        desc: 'Supervision globale et assistance générale.',
+        welcome: 'Bonjour ! Je suis AgriFlow Neural. Je supervise l\'ensemble de la plateforme. Comment puis-je vous aider aujourd\'hui ?'
     },
     { 
         id: 'analytics', 
@@ -26,8 +26,8 @@ const PERSONAS: { id: AIPersona, name: string, sub: string, icon: React.ElementT
         sub: 'Data Scientist', 
         icon: BarChart3, 
         color: 'bg-blue-600',
-        desc: 'Expert in reports, trends, and regional performance.',
-        welcome: 'Greetings. I am AgriFlow Analytics. Ready to dive into your distribution data and find some insights?'
+        desc: 'Expert en rapports, tendances et performance régionale.',
+        welcome: 'Bonjour. Je suis AgriFlow Analytics. Prêt à analyser vos données de distribution et à identifier des tendances ?'
     },
     { 
         id: 'logistics', 
@@ -35,8 +35,8 @@ const PERSONAS: { id: AIPersona, name: string, sub: string, icon: React.ElementT
         sub: 'Operations Manager', 
         icon: Truck, 
         color: 'bg-orange-600',
-        desc: 'Specialized in delivery tracking and route optimization.',
-        welcome: 'Logistics lead here. Need help tracking a delivery or optimizing a route across Burkina Faso?'
+        desc: 'Spécialisé dans le suivi des livraisons et l\'optimisation des routes.',
+        welcome: 'Logistique disponible. Besoin de suivre une livraison ou d\'optimiser un itinéraire au Burkina Faso ?'
     },
     { 
         id: 'inventory', 
@@ -44,8 +44,8 @@ const PERSONAS: { id: AIPersona, name: string, sub: string, icon: React.ElementT
         sub: 'Stock Specialist', 
         icon: Box, 
         color: 'bg-purple-600',
-        desc: 'Focused on stock levels and procurement alerts.',
-        welcome: 'Inventory Specialist reporting. Which seed or fertilizer levels should we check today?'
+        desc: 'Concentré sur les niveaux de stock et les alertes d\'approvisionnement.',
+        welcome: 'Spécialiste des stocks disponible. Quels niveaux de semences ou d\'engrais souhaitez-vous vérifier aujourd\'hui ?'
     }
 ];
 
@@ -119,7 +119,7 @@ export default function AIPage() {
         return () => clearTimeout(timer);
     }, [messages, isLoading]);
 
-    const handleSend = async (customValue?: string) => {
+    const handleSend = async (customValue?: string, isVoiceSource = false) => {
         const text = customValue || inputValue;
         if (!text.trim() && attachments.length === 0) return;
 
@@ -149,8 +149,17 @@ export default function AIPage() {
             const images = attachments
                 .filter(a => a.type === 'image' && a.data)
                 .map(a => a.data as string);
+            // Detect user language and convert to full name for explicit injection
+            const langCode = detectLanguage(text.trim());
+            const langMap: Record<string, string> = {
+                'fr-FR': 'Français',
+                'en-US': 'English',
+                'es-ES': 'Español',
+                'pt-PT': 'Português',
+            };
+            const detectedLanguage = langMap[langCode] || 'Français';
             
-            const aiResponse = await getChatCompletion(chatHistory, persona, images);
+            const aiResponse = await getChatCompletion(chatHistory, persona, images, detectedLanguage, isVoiceSource);
             
             setMessages(prev => [...prev, {
                 role: "assistant",
@@ -158,8 +167,8 @@ export default function AIPage() {
                 timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             }]);
             
-            // Auto-speak if it's a short response and not too annoying
-            if (aiResponse.length < 200) {
+            // Auto-speak strictly if the user used the microphone
+            if (isVoiceSource) {
                 speakText(aiResponse);
             }
         } catch (error: unknown) {
@@ -199,7 +208,7 @@ export default function AIPage() {
                     try {
                         const { transcribeAudio } = await import("@/services/aiService");
                         const text = await transcribeAudio(audioBlob);
-                        if (text) handleSend(text);
+                        if (text) handleSend(text, true); // mark as voice source
                     } catch (err) {
                         console.error("Transcription failed", err);
                     } finally {

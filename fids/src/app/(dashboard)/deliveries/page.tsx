@@ -115,7 +115,7 @@ export default function DeliveriesPage() {
                 {/* Delivery Cards Grid */}
                 <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
                     {isLoading ? (
-                         <div className="col-span-full py-20 text-center text-text-secondary">{t('loading_deliveries')}</div>
+                        <div className="col-span-full py-20 text-center text-text-secondary">{t('loading_deliveries')}</div>
                     ) : deliveries.length === 0 ? (
                         <div className="col-span-full py-20 text-center text-text-secondary bg-white rounded-2xl ring-1 ring-black/5">{t('no_active_deliveries')}</div>
                     ) : deliveries.map((delivery) => (
@@ -159,7 +159,7 @@ export default function DeliveriesPage() {
 
                             {(user?.role === 'admin' || user?.role === 'distributor') && (
                                 <div className="mt-6 flex gap-2">
-                                    <Button 
+                                    <Button
                                         onClick={async () => {
                                             const nextStatus = delivery.status === 'assigned' ? 'in_transit' : 'delivered';
                                             await updateDeliveryStatus(delivery._id, nextStatus);
@@ -193,7 +193,7 @@ export default function DeliveriesPage() {
                                 <option value="">{t('select_approved_order')}</option>
                                 {orders.map(order => (
                                     <option key={order._id} value={order._id}>
-                                        {t('order_number')}{order._id.substring(0, 8)} - {order.user.name}
+                                        {t('order_number')}{order._id.substring(0, 8)} - {order.user?.name ?? 'N/A'}
                                     </option>
                                 ))}
                             </select>
